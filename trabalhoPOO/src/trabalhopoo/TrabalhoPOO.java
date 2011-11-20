@@ -6,7 +6,7 @@ package trabalhopoo;
 
 /**
  *
- * @author daniman
+ * @author lucas
  */
 public class TrabalhoPOO {
 
