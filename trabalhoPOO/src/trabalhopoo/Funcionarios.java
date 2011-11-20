@@ -6,8 +6,11 @@ package trabalhopoo;
 
 /**
  *
- * @author lucas
+ * @author Lucas&Danilo
  */
 public class Funcionarios {
-    private String nome;
+    private String nome, endereco, telefone, dataAdmissao;
+    private int id;
+    private float salario;
+    
 }
