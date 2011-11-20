@@ -8,6 +8,6 @@ package trabalhopoo;
  *
  * @author lucas
  */
-public class Administrador {
+public class Administrador extends Funcionarios {
     
 }
