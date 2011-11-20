@@ -9,5 +9,5 @@ package trabalhopoo;
  * @author lucas
  */
 public class Funcionarios {
-    
+    private String nome;
 }
