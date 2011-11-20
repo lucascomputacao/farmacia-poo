@@ -6,8 +6,11 @@ package trabalhopoo;
 
 /**
  *
- * @author lucas
+ * @author Lucas&Danilo
  */
 public class Administrador extends Funcionarios {
+
+    
+    
     
 }

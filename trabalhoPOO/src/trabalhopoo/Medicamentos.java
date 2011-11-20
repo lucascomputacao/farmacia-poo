@@ -6,9 +6,10 @@ package trabalhopoo;
 
 /**
  *
- * @author lucas
+ * @author Lucas&Danilo
  */
 public class Medicamentos {
     private String nome;
+    private int codigo;
     
 }
