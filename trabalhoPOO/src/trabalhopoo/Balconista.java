@@ -14,7 +14,7 @@ public class Balconista extends Funcionarios{
     public Balconista(String nome, String endereco, String telefone, String dataAdmissao, int id, float salario) {
         super(nome, endereco, telefone, dataAdmissao, id, salario);
     }
-    
+    //colocando comentário pra teste de checkout no netbeans =]
     
     
     
