@@ -13,6 +13,7 @@ public class Funcionarios {
     private int id;
     private float salario;
 
+    //construtor
     public Funcionarios(String nome, String endereco, String telefone, String dataAdmissao, int id, float salario) {
         this.nome = nome;
         this.endereco = endereco;
