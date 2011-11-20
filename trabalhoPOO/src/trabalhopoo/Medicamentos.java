@@ -9,5 +9,6 @@ package trabalhopoo;
  * @author lucas
  */
 public class Medicamentos {
+    private String nome;
     
 }
