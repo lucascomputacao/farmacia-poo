@@ -10,4 +10,6 @@ package trabalhopoo;
  */
 public class Perfumaria {
     
+    private
+    
 }
