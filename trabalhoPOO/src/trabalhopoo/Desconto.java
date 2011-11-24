@@ -8,6 +8,6 @@ package trabalhopoo;
  *
  * @author lucas
  */
-public abstract class Item {
+public interface Desconto {
     
 }

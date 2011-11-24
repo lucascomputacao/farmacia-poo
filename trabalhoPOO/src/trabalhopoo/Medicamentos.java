@@ -8,7 +8,7 @@ package trabalhopoo;
  *
  * @author Lucas&Danilo
  */
-public class Medicamentos {
+public abstract class Medicamentos {
     //tarja = sem tarja [venda livre], amarela [genáricos], vermelha [com receita em papel branco] e preta [com receita em papel azul]
     private String nome, tarja, dataVencimento, principioAtivo;
     private int codigo;
