@@ -8,6 +8,11 @@ package trabalhopoo;
  *
  * @author lucas
  */
-public class MedicamentoNormal {
+public class MedicamentoNormal extends Medicamentos {
+
+    public MedicamentoNormal(String nome, String tarja, String dataVencimento, String principioAtivo, int codigo, float preco) {
+        super(nome, tarja, dataVencimento, principioAtivo, codigo, preco);
+    }
+    
     
 }
