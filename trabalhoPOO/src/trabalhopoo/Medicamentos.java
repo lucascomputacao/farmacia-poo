@@ -15,14 +15,17 @@ public abstract class Medicamentos {
     private String nome, tarja, dataVencimento, principioAtivo;
 
     //construtor
-    public Medicamentos(String nome, String tarja, String dataVencimento, String principioAtivo, int codigo, float preco) {
+
+    public Medicamentos(int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo) {
+        this.codigo = codigo;
+        this.lote = lote;
+        this.preco = preco;
         this.nome = nome;
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
         this.principioAtivo = principioAtivo;
-        this.codigo = codigo;
-        this.preco = preco;
     }
+    
     
     
     
