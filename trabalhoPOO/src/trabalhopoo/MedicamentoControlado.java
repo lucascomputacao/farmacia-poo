@@ -10,8 +10,10 @@ package trabalhopoo;
  */
 public class MedicamentoControlado extends Medicamentos {
 
-    public MedicamentoControlado(String nome, String tarja, String dataVencimento, String principioAtivo, int codigo, float preco) {
-        super(nome, tarja, dataVencimento, principioAtivo, codigo, preco);
+    public MedicamentoControlado(int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo) {
+        super(codigo, lote, preco, nome, tarja, dataVencimento, principioAtivo);
     }
+
+    
     
 }
