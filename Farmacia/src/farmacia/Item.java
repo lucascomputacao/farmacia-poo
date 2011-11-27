@@ -10,12 +10,12 @@ package farmacia;
  */
 public abstract class Item {
 
-    private static int codigo;
-    private int lote;
+    private static int codigo = 0;
+    private String lote;
     private float preco;
     private String validade;
 
-    public Item(int codigo, int lote, float preco, String validade) {
+    public Item(String lote, float preco, String validade) {
         Item.codigo = codigo++;
         this.lote = lote;
         this.preco = preco;
@@ -30,11 +30,11 @@ public abstract class Item {
         Item.codigo = codigo;
     }
 
-    public int getLote() {
+    public String getLote() {
         return lote;
     }
 
-    public void setLote(int lote) {
+    public void setLote(String lote) {
         this.lote = lote;
     }
 

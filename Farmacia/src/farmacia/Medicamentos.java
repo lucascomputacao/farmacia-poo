@@ -10,14 +10,13 @@ package farmacia;
  */
 public abstract class Medicamentos extends Item {
 //classe não pode ser instanciada
-
     //tarja = sem tarja [venda livre], amarela [genáricos], vermelha [com receita em papel branco] e preta [com receita em papel azul]
+
     private String nome, tarja, dataVencimento, principioAtivo, posologia;
     private boolean generico;
 
-    //construtoro com posologia
-    public Medicamentos(String nome, String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, int codigo, int lote, float preco, String validade) {
-        super(codigo, lote, preco, validade);
+    public Medicamentos(String nome, String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, String lote, float preco, String validade) {
+        super(lote, preco, validade);
         this.nome = nome;
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
@@ -25,15 +24,32 @@ public abstract class Medicamentos extends Item {
         this.posologia = posologia;
         this.generico = generico;
     }
-    //construtor sem posologia
 
-    public Medicamentos(String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico, int codigo, int lote, float preco, String validade) {
-        super(codigo, lote, preco, validade);
+    public Medicamentos(String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico, String lote, float preco, String validade) {
+        super(lote, preco, validade);
         this.nome = nome;
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
         this.principioAtivo = principioAtivo;
         this.generico = generico;
+    }
+
+    public void imprimeInfo() {
+        String iTarja = "";
+        if (getTarja().equalsIgnoreCase("s")) {
+            iTarja = "Sem Tarja";
+        }
+        if (getTarja().equalsIgnoreCase("v")) {
+            iTarja = "Tarja Vermelha";
+        }
+        if (getTarja().equalsIgnoreCase("p")) {
+            iTarja = "Tarja Preta";
+        }
+        System.out.println("Nome: " + getNome() + "\n"
+                + "Principio Ativo: " + getPrincipioAtivo() + "\n"
+                + "Posologia: " + getPosologia() + "\n"
+                + "Tarja: " + iTarja+ "\n"
+                + "Validade: " + getDataVencimento());
     }
 
     public String getDataVencimento() {
@@ -83,5 +99,4 @@ public abstract class Medicamentos extends Item {
     public void setTarja(String tarja) {
         this.tarja = tarja;
     }
-
 }
