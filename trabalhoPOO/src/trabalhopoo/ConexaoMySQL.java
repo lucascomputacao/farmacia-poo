@@ -19,11 +19,11 @@ public class ConexaoMySQL {
 
     private Connection conn;
     private String DRIVER = "com.mysql.jdbc.Driver";
-    private String ip = "localhost";
-    private String bd = "BD_FARMACIA";
+    private String ip = "localhost";//onde o mysql será executado
+    private String bd = "BD_FARMACIA"; //database
     private String user = "root";
     private String password = "";
-    // String de rotina para conexão com o MySQL  
+    // String de rotina (se repete em todas as conexões) x  para conexão com o MySQL  
     private String MySQL = "jdbc:mysql://";
     private boolean connected = false;
 
@@ -100,6 +100,7 @@ public class ConexaoMySQL {
                 return false;
             }
         } catch (SQLException ex) { // Erro de SQL  
+            System.out.println("Erro de SQL \n Conexao sendo fechada");
             conn = null;
             return false;
         }
