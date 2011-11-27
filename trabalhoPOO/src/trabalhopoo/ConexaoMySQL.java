@@ -19,7 +19,10 @@ public class ConexaoMySQL {
 
     private Connection conn;
     private String DRIVER = "com.mysql.jdbc.Driver";
-    private String ip;
+    private String ip = "localhost";
+    private String bd = "BD_FARMACIA";
+    private String user = "root";
+    private String password = "";
     // String de rotina para conexão com o MySQL  
     private String MySQL = "jdbc:mysql://";
     private boolean connected = false;
@@ -42,7 +45,7 @@ public class ConexaoMySQL {
 
             // Faz a conexão com o Banco MySQL 1  
             //conn = DriverManager.getConnection(dbMySQL, USER, PASSWD);
-            conn = DriverManager.getConnection(ip, ip, dbMySQL)
+            conn = DriverManager.getConnection(dbMySQL, user, password);
             // Atualiza o Auto Commit para false  
             conn.setAutoCommit(false);
             // Atualiz o status da conexão para tru -> conectado  
@@ -52,6 +55,7 @@ public class ConexaoMySQL {
             // encontrada  
             System.out.println("Driver JDBC Não encontrado");
         } catch (SQLException ex1) { // Erro de SQL  
+            System.out.println("Erro de SQL");
         }
     }
 
@@ -66,9 +70,9 @@ public class ConexaoMySQL {
             this.connected = false;
 
         } catch (ClassNotFoundException ex) { // Erro de classe nao encontrada  
-            erro("Driver JDBC Não encontrado");
+            System.out.println("Driver JDBC Não encontrado");
         } catch (Exception ex1) { // Erro geral  
-            erro("Falha ao desconectar no banco" + ex1);
+            System.out.println("Falha ao desconectar no banco" + ex1);
         }
     }
 
@@ -81,7 +85,8 @@ public class ConexaoMySQL {
                 Statement stmt = conn.createStatement();
 
                 // Buffer para SQL  
-                StringBuffer sql = new StringBuffer("");
+                StringBuilder sql = new StringBuilder("");
+
                 // Envia requisição para o Banco  
                 sql.append(SQL);
                 // Executa a operação no banco  
