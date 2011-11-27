@@ -10,8 +10,11 @@ package farmacia;
  */
 public class MedicamentoControlado extends Medicamentos {
 
-    public MedicamentoControlado(int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico) {
-        super(codigo, lote, preco, nome, tarja, dataVencimento, principioAtivo, generico);
-    }   
+    public MedicamentoControlado(String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico, int codigo, int lote, float preco, String validade) {
+        super(nome, tarja, dataVencimento, principioAtivo, generico, codigo, lote, preco, validade);
+    }
+
+    
+
     
 }
