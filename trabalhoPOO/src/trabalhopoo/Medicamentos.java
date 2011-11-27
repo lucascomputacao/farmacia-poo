@@ -9,7 +9,7 @@ package trabalhopoo;
  * @author Lucas&Danilo
  */
 public abstract class Medicamentos {
-    private int codigo;
+    private int codigo , lote;
     private float preco;    
     //tarja = sem tarja [venda livre], amarela [genáricos], vermelha [com receita em papel branco] e preta [com receita em papel azul]
     private String nome, tarja, dataVencimento, principioAtivo;
