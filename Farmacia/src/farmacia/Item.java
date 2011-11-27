@@ -10,14 +10,49 @@ package farmacia;
  */
 public abstract class Item {
 
-    private int codigo, lote;
+    private static int codigo;
+    private int lote;
     private float preco;
     private String validade;
 
     public Item(int codigo, int lote, float preco, String validade) {
-        this.codigo = codigo;
+        Item.codigo = codigo++;
         this.lote = lote;
         this.preco = preco;
         this.validade = validade;
     }
+
+    public static int getCodigo() {
+        return codigo;
+    }
+
+    public static void setCodigo(int codigo) {
+        Item.codigo = codigo;
+    }
+
+    public int getLote() {
+        return lote;
+    }
+
+    public void setLote(int lote) {
+        this.lote = lote;
+    }
+
+    public float getPreco() {
+        return preco;
+    }
+
+    public void setPreco(float preco) {
+        this.preco = preco;
+    }
+
+    public String getValidade() {
+        return validade;
+    }
+
+    public void setValidade(String validade) {
+        this.validade = validade;
+    }
+    
+    
 }

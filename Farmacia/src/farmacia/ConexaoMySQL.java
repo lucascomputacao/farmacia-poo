@@ -136,4 +136,35 @@ public class ConexaoMySQL {
     public boolean conectado() {
         return this.connected;
     }
+    
+    public boolean inserir(String SQL) {
+        try {
+            // Se a conexão for nula  
+            if (conn != null) {
+                // Obrigatório para inclusão e consulta  
+                Statement stmt = conn.createStatement();
+
+                // Buffer para SQL  
+                StringBuilder sql = new StringBuilder("");
+
+                // Envia requisição para o Banco  
+                sql.append(SQL);
+                // Executa a operação no banco  
+                stmt.execute(sql.toString());
+                // Comita a operação  
+                conn.commit();
+                // Retorna como realizado com sucesso  
+                return true;
+            } else { // Erro ao tentar conectar sem conexão estabelecida  
+                System.out.println("Atualizacao - Tentou sem estar aberto : ");
+                return false;
+            }
+        } catch (SQLException ex) { // Erro de SQL  
+            System.out.println("Erro de SQL \n Conexao sendo fechada");
+            conn = null;
+            return false;
+        }
+    }
+    
+   
 }

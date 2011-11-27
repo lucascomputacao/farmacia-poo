@@ -4,6 +4,7 @@
  */
 package farmacia;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 /**
@@ -12,11 +13,12 @@ import java.util.GregorianCalendar;
  * @author lucas
  */
 public class Venda {
+    //tem vários itens
 
+    private ArrayList<Item> listaItens = new ArrayList<Item>();
     private String descricao;
     private int codigo, qtd;
     private float vlrUnit, vlrTotal;
-    
     //data da venda
     GregorianCalendar gc = new GregorianCalendar();
     long dia = gc.get(GregorianCalendar.DAY_OF_MONTH);
@@ -31,5 +33,4 @@ public class Venda {
         this.vlrUnit = vlrUnit;
         this.vlrTotal = vlrTotal;
     }
-    
 }
