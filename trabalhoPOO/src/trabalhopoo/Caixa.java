@@ -9,5 +9,6 @@ package trabalhopoo;
  * @author lucas
  */
 public class Caixa {
+    //ATIVIDADES DO CAIXA DA FARMACIA: ABERTURA, FECHAMENTO, VENDA, TROCO, CANCELAMENTO
     
 }

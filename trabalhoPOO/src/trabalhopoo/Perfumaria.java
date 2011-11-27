@@ -9,7 +9,5 @@ package trabalhopoo;
  * @author lucas
  */
 public class Perfumaria {
-    
-    private
-    
+       
 }

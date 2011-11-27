@@ -9,10 +9,10 @@ package trabalhopoo;
  * @author Lucas&Danilo
  */
 public abstract class Medicamentos {
+    private int codigo;
+    private float preco;    
     //tarja = sem tarja [venda livre], amarela [genáricos], vermelha [com receita em papel branco] e preta [com receita em papel azul]
     private String nome, tarja, dataVencimento, principioAtivo;
-    private int codigo;
-    private float preco;
 
     //construtor
     public Medicamentos(String nome, String tarja, String dataVencimento, String principioAtivo, int codigo, float preco) {
