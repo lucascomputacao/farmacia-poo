@@ -8,6 +8,16 @@ package farmacia;
  *
  * @author lucas
  */
-public class Perfumaria {
-       
+public class Perfumaria extends Item {
+
+    public Perfumaria(String lote, float preco, String validade, String nome) {
+        super(lote, preco, validade, nome);
+    }
+
+    @Override
+    void imprimeInfo() {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
 }

@@ -9,7 +9,7 @@ package farmacia;
  * @author Lucas&Danilo
  */
 public abstract class Medicamentos extends Item {
-//classe não pode ser instanciada
+    //classe não pode ser instanciada
     //tarja = sem tarja [venda livre], amarela [genáricos], vermelha [com receita em papel branco] e preta [com receita em papel azul]
 
     private String tarja, dataVencimento, principioAtivo, posologia;
@@ -33,8 +33,14 @@ public abstract class Medicamentos extends Item {
     }
 
     
+    @Override
     public void imprimeInfo() {
-        String iTarja = "";
+        String iTarja = "", iGenerico ;
+        if (this.isGenerico()){
+            iGenerico  = "Generico";
+        }else{
+            iGenerico  = "De Referencia";
+        }
         if (getTarja().equalsIgnoreCase("s")) {
             iTarja = "Sem Tarja";
         }
@@ -48,7 +54,10 @@ public abstract class Medicamentos extends Item {
                 + "Principio Ativo: " + getPrincipioAtivo() + "\n"
                 + "Posologia: " + getPosologia() + "\n"
                 + "Tarja: " + iTarja + "\n"
-                + "Validade: " + getDataVencimento());
+                + "Tipo: " + iGenerico + "\n"
+                + "Validade: " + getDataVencimento()+ "\n"
+                + "Lote: " + getLote() + "\n"
+                + "Preco: " + getPreco());
     }
 
     public String getDataVencimento() {

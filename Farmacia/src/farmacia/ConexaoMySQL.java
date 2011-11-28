@@ -53,7 +53,7 @@ public class ConexaoMySQL {
 
         } catch (ClassNotFoundException ex) { // Erro de classe nao  
             // encontrada  
-            System.out.println("Driver JDBC Não encontrado");
+            System.out.println("Driver JDBC Não encontrado\nNão foi possível salvar os dados");
         } catch (SQLException ex1) { // Erro de SQL  
             System.out.println("Erro de SQL");
         }
@@ -70,7 +70,7 @@ public class ConexaoMySQL {
             this.connected = false;
 
         } catch (ClassNotFoundException ex) { // Erro de classe nao encontrada  
-            System.out.println("Driver JDBC Não encontrado");
+            System.out.println("Driver JDBC Não encontrado\nNão foi possível salvar os dados");
         } catch (Exception ex1) { // Erro geral  
             System.out.println("Falha ao desconectar no banco" + ex1);
         }

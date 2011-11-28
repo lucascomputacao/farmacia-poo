@@ -22,6 +22,8 @@ public abstract class Item {
         this.validade = validade;
         this.nome = nome;
     }
+    //MÉTODO ABSTRATO
+    abstract void imprimeInfo();
 
     public String getNome() {
         return nome;

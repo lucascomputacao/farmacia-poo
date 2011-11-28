@@ -4,12 +4,12 @@
  */
 package farmacia;
 
-import java.util.Scanner;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.*;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 
 /**
  *
@@ -17,71 +17,86 @@ import java.sql.Statement;
  */
 public class Farmacia {
 
+    private static ArrayList<Item> listaItens = new ArrayList<Item>();
+
     public static void cadastraMedicamento() {
 //    int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico
         Scanner read = new Scanner(System.in);
-        String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote;
+        String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "";
         int intTarja;
         float preco;
         boolean generico = false;
-
-        System.out.println("============== CADASTRO DE MEDICAMENTOS =============");
-        System.out.println("Digite o nome do remédio:");
-        nome = read.nextLine();
-        System.out.println("Digite a validade: [mm/aaaa] mes/ano");
-        dataVencimento = read.nextLine();
-        System.out.println("Digite o principio ativo da medicação:");
-        principioAtivo = read.nextLine();
         do {
-            System.out.println("Escolha a tarja:\n"
-                    + "S. Sem tarja (medicamento vendido sem prescrição médica)\n"
-                    + "V. Tarja VERMELHA (vendido com receita impressa em papel branco)\n"
-                    + "P. Tarja PRETA(vendido com receita impressa em papel azul)");
-            tarja = read.nextLine();
-            tarja = tarja.toUpperCase();
+            System.out.println("============== CADASTRO DE MEDICAMENTOS =============");
+            System.out.println("Digite o nome do remédio:");
+            nome = read.nextLine();
+            System.out.println("Digite a validade: [mm/aaaa] mes/ano");
+            dataVencimento = read.nextLine();
+            System.out.println("Digite o principio ativo da medicação:");
+            principioAtivo = read.nextLine();
+            do {
+                System.out.println("Escolha a tarja:\n"
+                        + "S. Sem tarja (medicamento vendido sem prescrição médica)\n"
+                        + "V. Tarja VERMELHA (vendido com receita impressa em papel branco)\n"
+                        + "P. Tarja PRETA(vendido com receita impressa em papel azul)");
+                tarja = read.nextLine();
+                tarja = tarja.toUpperCase();
 
-        } while (!(tarja.equalsIgnoreCase("s") || tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p")));
-        System.out.println("Medicamento Generico? [S]im ou [N]ao\n"
-                + "'S' para sim e 'N' para não... ");
-        gen = read.nextLine();
-        System.out.println("[Opcional] Digite a posologia:");
-        posologia = read.nextLine();
-        if (gen.equalsIgnoreCase("s")) {
-            generico = true;
-        }
-        if (gen.equalsIgnoreCase("n")) {
-            generico = false;
-        }
-        System.out.println("Digite o lote:");
-        lote = read.nextLine();
-        System.out.println("Digite o preço unitário:\n"
-                + "*Use pontos pra divisão dos centavos*");
-        preco = read.nextFloat();
-        //cria objeto medicamentonormal ou controlado
-        if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
-            if (posologia.equalsIgnoreCase("")) {
-                Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
-                System.out.println("Novo medicamento cadastrado:");
-                remedio.imprimeInfo();
-                insereMedDB(remedio);
-            } else {
-                Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
-                System.out.println("Novo medicamento cadastrado:");
-                remedio.imprimeInfo();
-                insereMedDB(remedio);
+            } while (!(tarja.equalsIgnoreCase("s") || tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p")));
+            System.out.println("Medicamento Generico? [S]im ou [N]ao\n"
+                    + "'S' para sim e 'N' para não... ");
+            gen = read.nextLine();
+            System.out.println("[Opcional] Digite a posologia:");
+            posologia = read.nextLine();
+            if (gen.equalsIgnoreCase("s")) {
+                generico = true;
             }
-        } else {
-            if (posologia.equalsIgnoreCase("")) {
-                Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
-                System.out.println("Novo medicamento cadastrado:");
-                remedio.imprimeInfo();
-                insereMedDB(remedio);
-            } else {
-                Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
-                System.out.println("Novo medicamento cadastrado:");
-                remedio.imprimeInfo();
-                insereMedDB(remedio);
+            if (gen.equalsIgnoreCase("n")) {
+                generico = false;
             }
+            System.out.println("Digite o lote:");
+            lote = read.nextLine();
+            System.out.println("Digite o preço unitário:\n"
+                    + "*Use pontos pra divisão dos centavos*");
+            preco = read.nextFloat();
+            read.nextLine();
+            //cria objeto medicamentonormal ou controlado
+            if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
+                if (posologia.equalsIgnoreCase("")) {
+                    Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
+                    System.out.println("Novo medicamento cadastrado:");
+                    listaItens.add(remedio);
+                    remedio.imprimeInfo();
+                } else {
+                    Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
+                    System.out.println("Novo medicamento cadastrado:");
+                    listaItens.add(remedio);
+                    remedio.imprimeInfo();
+                }
+            } else {
+                if (posologia.equalsIgnoreCase("")) {
+                    Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
+                    System.out.println("Novo medicamento cadastrado:");
+                    listaItens.add(remedio);
+                    remedio.imprimeInfo();
+                } else {
+                    Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
+                    System.out.println("Novo medicamento cadastrado:");
+                    listaItens.add(remedio);
+                    remedio.imprimeInfo();
+                }
+            }
+            System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
+            opcao = read.nextLine();
+        } while (opcao.equalsIgnoreCase("s"));
+
+
+    }
+    //POLIMORFISMO NO MÉTODO
+
+    public static void imprimeListaItens() {
+        for (int i = 0; i < listaItens.size(); i++) {
+            listaItens.get(i).imprimeInfo();
         }
     }
 
@@ -108,8 +123,8 @@ public class Farmacia {
         validade = remedio.getDataVencimento();
         preco = remedio.getPreco();
         System.out.println("Salvando...");
-        ConexaoMySQL conection = new ConexaoMySQL();     
-        if (conection.conectado()){
+        ConexaoMySQL conection = new ConexaoMySQL();
+        if (conection.conectado()) {
             System.out.println("Conectado com o banco de dados \\o/");
             String sql = "INSERTE INTO ...";
             //conection.atualizar(sql);
