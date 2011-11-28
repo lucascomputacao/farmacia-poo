@@ -19,7 +19,7 @@ public class ConexaoMySQL {
 
     private Connection conn;
     private String DRIVER = "com.mysql.jdbc.Driver";
-    private String ip = "localhost";//onde o mysql será executado
+    private String ip = "localhost:3306";//onde o mysql será executado
     private String bd = "BD_FARMACIA"; //database
     private String user = "root";
     private String password = "";

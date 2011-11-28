@@ -5,6 +5,12 @@
 package farmacia;
 
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author lucas
@@ -52,41 +58,63 @@ public class Farmacia {
                 + "*Use pontos pra divisão dos centavos*");
         preco = read.nextFloat();
         //cria objeto medicamentonormal ou controlado
-        if ( (tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p")) ){
-            if (posologia.equalsIgnoreCase("")){
-                Medicamentos remedio = new MedicamentoControlado(
-                        nome, tarja, dataVencimento, principioAtivo, generico, lote, preco, lote);
+        if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
+            if (posologia.equalsIgnoreCase("")) {
+                Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
                 System.out.println("Novo medicamento cadastrado:");
                 remedio.imprimeInfo();
-            }else{
-                Medicamentos remedio = new MedicamentoControlado(
-                        nome,tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote);
+                insereMedDB(remedio);
+            } else {
+                Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
                 System.out.println("Novo medicamento cadastrado:");
                 remedio.imprimeInfo();
-            }                
-        }else{
-            if (posologia.equalsIgnoreCase("")){
-                Medicamentos remedio = new MedicamentoNormal(
-                        nome,tarja, dataVencimento, principioAtivo, generico, lote, preco, lote);
+                insereMedDB(remedio);
+            }
+        } else {
+            if (posologia.equalsIgnoreCase("")) {
+                Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
                 System.out.println("Novo medicamento cadastrado:");
                 remedio.imprimeInfo();
-            }else{
-                Medicamentos remedio = new MedicamentoNormal(
-                        nome, tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote);
+                insereMedDB(remedio);
+            } else {
+                Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
                 System.out.println("Novo medicamento cadastrado:");
                 remedio.imprimeInfo();
+                insereMedDB(remedio);
             }
         }
     }
+
     /**
      * Recebe um objeto Item e insere no banco de dados
-     * @param item 
+     * @param remedio 
      */
-    public void insereDB(Item item){
-        if (item instanceof Medicamentos){
-            
+    public static void insereMedDB(Medicamentos remedio) {
+        String lote, nome, principioAtivo, posologia, generico, tarja, validade;
+        float preco;
+        int codigo;
+
+        codigo = Item.getCodigo();
+        lote = remedio.getLote();
+        nome = remedio.getNome();
+        principioAtivo = remedio.getPrincipioAtivo();
+        posologia = remedio.getPosologia();
+        if (remedio.isGenerico()) {
+            generico = "S";
+        } else {
+            generico = "N";
         }
-        
+        tarja = remedio.getTarja();
+        validade = remedio.getDataVencimento();
+        preco = remedio.getPreco();
+        System.out.println("Salvando...");
+        ConexaoMySQL conection = new ConexaoMySQL();     
+        if (conection.conectado()){
+            System.out.println("Conectado com o banco de dados \\o/");
+            String sql = "INSERTE INTO ...";
+            //conection.atualizar(sql);
+        }
+
     }
 
     /**

@@ -14,20 +14,25 @@ public abstract class Item {
     private String lote;
     private float preco;
     private String validade;
+    private String nome;
 
-    public Item(String lote, float preco, String validade) {
-        Item.codigo = codigo++;
+    public Item(String lote, float preco, String validade, String nome) {
         this.lote = lote;
         this.preco = preco;
         this.validade = validade;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public static int getCodigo() {
         return codigo;
-    }
-
-    public static void setCodigo(int codigo) {
-        Item.codigo = codigo;
     }
 
     public String getLote() {
@@ -53,6 +58,4 @@ public abstract class Item {
     public void setValidade(String validade) {
         this.validade = validade;
     }
-    
-    
 }
