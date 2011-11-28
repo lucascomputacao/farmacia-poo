@@ -19,11 +19,12 @@ public class Farmacia {
 
     private static ArrayList<Item> listaItens = new ArrayList<Item>();
 
+    //cadastrar medicamento
     public static void cadastraMedicamento() {
 //    int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico
         Scanner read = new Scanner(System.in);
         String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "";
-        int intTarja;
+        int intTarja, codIni = 0, ini = 0;
         float preco;
         boolean generico = false;
         do {
@@ -63,40 +64,77 @@ public class Farmacia {
             //cria objeto medicamentonormal ou controlado
             if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
                 if (posologia.equalsIgnoreCase("")) {
-                    Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
+                    Medicamentos remedio = new MedicamentoControlado(
+                            tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
+                    if (ini == 0) {
+                        codIni = remedio.getCodigo();
+                    }
                 } else {
-                    Medicamentos remedio = new MedicamentoControlado(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
+                    Medicamentos remedio = new MedicamentoControlado(
+                            tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
+                    if (ini == 0) {
+                        codIni = remedio.getCodigo();
+                    }
                 }
             } else {
                 if (posologia.equalsIgnoreCase("")) {
-                    Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, generico, lote, preco, lote, nome);
+                    Medicamentos remedio = new MedicamentoNormal(
+                            tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
+                    if (ini == 0) {
+                        codIni = remedio.getCodigo();
+                    }
                 } else {
-                    Medicamentos remedio = new MedicamentoNormal(tarja, dataVencimento, principioAtivo, posologia, generico, lote, preco, lote, nome);
+                    Medicamentos remedio = new MedicamentoNormal(
+                            tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
+                    if (ini == 0) {
+                        codIni = remedio.getCodigo();
+                    }
                 }
             }
             System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
             opcao = read.nextLine();
+
         } while (opcao.equalsIgnoreCase("s"));
-
-
+        //imprime os itens cadastrados
+//        System.out.println("cadastrados no momento:");
+//        imprimeListaItens(codIni);
+        System.out.println("todos:");
+        imprimeListaItens();
     }
-    //POLIMORFISMO NO MÉTODO
 
+    //POLIMORFISMO NO MÉTODO
     public static void imprimeListaItens() {
+        System.out.println("Lista de Itens cadastrados:");
         for (int i = 0; i < listaItens.size(); i++) {
             listaItens.get(i).imprimeInfo();
+            System.out.println("");
+        }
+    }
+
+    //SOBRECARGA
+    public static void imprimeListaItens(int codIni) {
+        System.out.println("Lista de Itens cadastrados:");
+        int indice = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (codIni == listaItens.get(i).getCodigo()) {
+                indice = i;
+                for (int f = indice; f < listaItens.size(); f++) {
+                    listaItens.get(f).imprimeInfo();
+                    System.out.println("");
+                }
+            }
         }
     }
 
@@ -109,7 +147,7 @@ public class Farmacia {
         float preco;
         int codigo;
 
-        codigo = Item.getCodigo();
+        codigo = remedio.getCodigo();
         lote = remedio.getLote();
         nome = remedio.getNome();
         principioAtivo = remedio.getPrincipioAtivo();
@@ -145,6 +183,7 @@ public class Farmacia {
             System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|" + "\n"
                     + " ---------------------------------------------------");
             System.out.println("| 1. Cadastrar Medicamento                          |" + "\n"
+                    + "| 2. Listar Itens cadastrados                       |" + "\n"
                     + "| 0. SAIR DO SISTEMA                                |");
             System.out.println("================= FARMACIA DO POLVO ================= ");
             menu = sc.nextInt();
@@ -154,6 +193,9 @@ public class Farmacia {
                     break;
                 case 1:
                     cadastraMedicamento();
+                    break;
+                case 2:
+                    imprimeListaItens();
                     break;
                 default:
                     System.out.println("Digite número válido ou 0 pra sair...");

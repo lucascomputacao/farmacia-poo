@@ -14,23 +14,27 @@ public abstract class Medicamentos extends Item {
 
     private String tarja, dataVencimento, principioAtivo, posologia;
     private boolean generico;
+    private int codMed;
 
-    public Medicamentos(String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, String lote, float preco, String validade, String nome) {
+    public Medicamentos(String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(lote, preco, validade, nome);
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
         this.principioAtivo = principioAtivo;
         this.posologia = posologia;
         this.generico = generico;
+        this.codMed = getCodigo();
     }
 
-    public Medicamentos(String tarja, String dataVencimento, String principioAtivo, boolean generico, String lote, float preco, String validade, String nome) {
+    public Medicamentos(String tarja, String dataVencimento, String principioAtivo, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(lote, preco, validade, nome);
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
         this.principioAtivo = principioAtivo;
         this.generico = generico;
+        this.codMed = getCodigo();
     }
+    
 
     
     @Override
@@ -51,6 +55,7 @@ public abstract class Medicamentos extends Item {
             iTarja = "Tarja Preta";
         }
         System.out.println("Nome: " + getNome() + "\n"
+                + "Codigo: " + getCodMed() + "\n"
                 + "Principio Ativo: " + getPrincipioAtivo() + "\n"
                 + "Posologia: " + getPosologia() + "\n"
                 + "Tarja: " + iTarja + "\n"
@@ -58,6 +63,14 @@ public abstract class Medicamentos extends Item {
                 + "Validade: " + getDataVencimento()+ "\n"
                 + "Lote: " + getLote() + "\n"
                 + "Preco: " + getPreco());
+    }
+
+    public int getCodMed() {
+        return codMed;
+    }
+
+    public void setCodMed(int codMed) {
+        this.codMed = codMed;
     }
 
     public String getDataVencimento() {
@@ -99,4 +112,5 @@ public abstract class Medicamentos extends Item {
     public void setTarja(String tarja) {
         this.tarja = tarja;
     }
+
 }

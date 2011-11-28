@@ -21,8 +21,13 @@ public abstract class Item {
         this.preco = preco;
         this.validade = validade;
         this.nome = nome;
+        codigo++;
     }
+
+      
+    
     //MÉTODO ABSTRATO
+
     abstract void imprimeInfo();
 
     public String getNome() {
@@ -33,7 +38,17 @@ public abstract class Item {
         this.nome = nome;
     }
 
-    public static int getCodigo() {
+        /**
+     * 
+     * @param codigo 
+     * @return
+     */
+    public static void setCodigo(int codigo) {
+        Item.codigo = codigo;
+    }
+
+
+    public int getCodigo() {
         return codigo;
     }
 
