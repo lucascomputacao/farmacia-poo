@@ -10,7 +10,6 @@ import java.util.*;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
 //import java.sql.Statement;
-
 /**
  *
  * @author lucas
@@ -24,6 +23,7 @@ public class Farmacia {
 //    int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico
         Scanner read = new Scanner(System.in);
         String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "";
+        ArrayList<Medicamentos> listLocal = new ArrayList<Medicamentos>();
         int intTarja, codIni = 0, ini = 0;
         float preco;
         boolean generico = false;
@@ -36,16 +36,12 @@ public class Farmacia {
             System.out.println("Digite o principio ativo da medicação:");
             principioAtivo = read.nextLine();
             do {
-                System.out.println("Escolha a tarja:\n"
-                        + "S. Sem tarja (medicamento vendido sem prescrição médica)\n"
-                        + "V. Tarja VERMELHA (vendido com receita impressa em papel branco)\n"
-                        + "P. Tarja PRETA(vendido com receita impressa em papel azul)");
+                System.out.println("Escolha a tarja:\n" + "S. Sem tarja (medicamento vendido sem prescrição médica)\n" + "V. Tarja VERMELHA (vendido com receita impressa em papel branco)\n" + "P. Tarja PRETA(vendido com receita impressa em papel azul)");
                 tarja = read.nextLine();
                 tarja = tarja.toUpperCase();
 
             } while (!(tarja.equalsIgnoreCase("s") || tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p")));
-            System.out.println("Medicamento Generico? [S]im ou [N]ao\n"
-                    + "'S' para sim e 'N' para não... ");
+            System.out.println("Medicamento Generico? [S]im ou [N]ao\n" + "'S' para sim e 'N' para não... ");
             gen = read.nextLine();
             System.out.println("[Opcional] Digite a posologia:");
             posologia = read.nextLine();
@@ -57,8 +53,7 @@ public class Farmacia {
             }
             System.out.println("Digite o lote:");
             lote = read.nextLine();
-            System.out.println("Digite o preço unitário:\n"
-                    + "*Use pontos pra divisão dos centavos*");
+            System.out.println("Digite o preço unitário:\n" + "*Use pontos pra divisão dos centavos*");
             preco = read.nextFloat();
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
@@ -68,19 +63,16 @@ public class Farmacia {
                             tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
+                    listLocal.add(remedio);
                     remedio.imprimeInfo();
-                    if (ini == 0) {
-                        codIni = remedio.getCodigo();
-                    }
+
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
                             tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
-                    if (ini == 0) {
-                        codIni = remedio.getCodigo();
-                    }
+                    listLocal.add(remedio);
                 }
             } else {
                 if (posologia.equalsIgnoreCase("")) {
@@ -89,18 +81,15 @@ public class Farmacia {
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
-                    if (ini == 0) {
-                        codIni = remedio.getCodigo();
-                    }
+                    listLocal.add(remedio);
+
                 } else {
                     Medicamentos remedio = new MedicamentoNormal(
                             tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
-                    if (ini == 0) {
-                        codIni = remedio.getCodigo();
-                    }
+                    listLocal.add(remedio);
                 }
             }
             System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
@@ -108,11 +97,16 @@ public class Farmacia {
 
         } while (opcao.equalsIgnoreCase("s"));
         //imprime os itens cadastrados
-//        System.out.println("cadastrados no momento:");
-//        imprimeListaItens(codIni);
-        System.out.println("todos:");
-        imprimeListaItens();
+        System.out.println("\nMedicamentos cadastrados:\n");
+        for (int i = 0; i < listLocal.size(); i++) {
+            listLocal.get(i).imprimeInfo();
+            System.out.println("\nPRESSIONE ENTER PARA RETORNAR AO MENU");
+            read.nextLine();
+        }
+    //System.out.println("todos:");
+    //imprimeListaItens();
     }
+
 
     //POLIMORFISMO NO MÉTODO
     public static void imprimeListaItens() {
@@ -128,13 +122,7 @@ public class Farmacia {
         System.out.println("Lista de Itens cadastrados:");
         int indice = 0;
         for (int i = 0; i < listaItens.size(); i++) {
-            if (codIni == listaItens.get(i).getCodigo()) {
-                indice = i;
-                for (int f = indice; f < listaItens.size(); f++) {
-                    listaItens.get(f).imprimeInfo();
-                    System.out.println("");
-                }
-            }
+            listaItens.get(i).imprimeInfo();
         }
     }
 
@@ -165,7 +153,7 @@ public class Farmacia {
         if (conection.conectado()) {
             System.out.println("Conectado com o banco de dados \\o/");
             String sql = "INSERTE INTO ...";
-            //conection.atualizar(sql);
+        //conection.atualizar(sql);
         }
 
     }
@@ -180,11 +168,8 @@ public class Farmacia {
         //MENU
         do {
             System.out.println("================= FARMACIA DO POLVO ================= ");
-            System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|" + "\n"
-                    + " ---------------------------------------------------");
-            System.out.println("| 1. Cadastrar Medicamento                          |" + "\n"
-                    + "| 2. Listar Itens cadastrados                       |" + "\n"
-                    + "| 0. SAIR DO SISTEMA                                |");
+            System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|" + "\n" + " ---------------------------------------------------");
+            System.out.println("| 1. Cadastrar Medicamento                          |" + "\n" + "| 2. Listar Itens cadastrados                       |" + "\n" + "| 0. SAIR DO SISTEMA                                |");
             System.out.println("================= FARMACIA DO POLVO ================= ");
             menu = sc.nextInt();
             switch (menu) {

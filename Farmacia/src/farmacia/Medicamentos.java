@@ -54,8 +54,8 @@ public abstract class Medicamentos extends Item {
         if (getTarja().equalsIgnoreCase("p")) {
             iTarja = "Tarja Preta";
         }
-        System.out.println("Nome: " + getNome() + "\n"
-                + "Codigo: " + getCodMed() + "\n"
+        System.out.println("Codigo: " + getCodMed() + "\n"
+                + "Nome: " + getNome() + "\n"
                 + "Principio Ativo: " + getPrincipioAtivo() + "\n"
                 + "Posologia: " + getPosologia() + "\n"
                 + "Tarja: " + iTarja + "\n"
