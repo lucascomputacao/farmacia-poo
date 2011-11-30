@@ -16,17 +16,22 @@ public abstract class Medicamentos extends Item {
     private boolean generico;
     private int codMed;
 
-    public Medicamentos(String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
+    public Medicamentos(String tarja, 
+            String dataVencimento, String principioAtivo, String posologia, 
+            boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(lote, preco, validade, nome);
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
         this.principioAtivo = principioAtivo;
         this.posologia = posologia;
         this.generico = generico;
-        this.codMed = getCodigo();
+        this.codMed = getCodigo();//pega código estático para novo item 
     }
-
-    public Medicamentos(String tarja, String dataVencimento, String principioAtivo, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
+    
+    //sobrecarga
+    public Medicamentos(String tarja, 
+            String dataVencimento, String principioAtivo, boolean generico, 
+            int codMed, String lote, float preco, String validade, String nome) {
         super(lote, preco, validade, nome);
         this.tarja = tarja;
         this.dataVencimento = dataVencimento;
@@ -46,13 +51,13 @@ public abstract class Medicamentos extends Item {
             iGenerico  = "De Referencia";
         }
         if (getTarja().equalsIgnoreCase("s")) {
-            iTarja = "Sem Tarja";
+            iTarja = "Sem Tarja [Venda livre - nao necessita de prescricao]";
         }
         if (getTarja().equalsIgnoreCase("v")) {
-            iTarja = "Tarja Vermelha";
+            iTarja = "Tarja Vermelha [Prescricao Medica - receita em papel branco]";
         }
         if (getTarja().equalsIgnoreCase("p")) {
-            iTarja = "Tarja Preta";
+            iTarja = "Tarja Preta [Prescricao Medica - receita em papel azul]";
         }
         System.out.println("Codigo: " + getCodMed() + "\n"
                 + "Nome: " + getNome() + "\n"

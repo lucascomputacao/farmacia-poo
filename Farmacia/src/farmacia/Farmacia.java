@@ -53,7 +53,8 @@ public class Farmacia {
             }
             System.out.println("Digite o lote:");
             lote = read.nextLine();
-            System.out.println("Digite o preço unitário:\n" + "*Use pontos pra divisão dos centavos*");
+            System.out.println("Digite o preço unitário:\n" +
+                    "*Use VÍRGULA pra divisão dos centavos*");
             preco = read.nextFloat();
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
@@ -98,32 +99,85 @@ public class Farmacia {
         } while (opcao.equalsIgnoreCase("s"));
         //imprime os itens cadastrados
         System.out.println("\nMedicamentos cadastrados:\n");
-        for (int i = 0; i < listLocal.size(); i++) {
+        for (int i = 0,  itensPag = 1,  maxItens = 0; i < listLocal.size(); i++, itensPag++, maxItens++) {
             listLocal.get(i).imprimeInfo();
-            System.out.println("\nPRESSIONE ENTER PARA RETORNAR AO MENU");
-            read.nextLine();
+            if (maxItens != listLocal.size() && itensPag == 3) {
+                System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
+                read.nextLine();
+                itensPag = 0;
+            }
         }
-    //System.out.println("todos:");
-    //imprimeListaItens();
+        System.out.println("\nPRESSIONE ENTER PARA RETORNAR AO MENU");
+        read.nextLine();
     }
 
+    public static void cadastraPerfumaria() {
+        String opcao = "", nome, validade, fragrancia, unidade, lote;
+        float preco;
+        ArrayList<Perfumaria> listaLocal = new ArrayList<Perfumaria>();
+
+        Scanner read = new Scanner(System.in);
+
+        do {
+            System.out.println("================== CADASTRO DE PERFUMARIA ===============");
+            System.out.println("| Digite o nome :                                       |");
+            nome = read.nextLine();
+            System.out.println("| Digite a fragrancia:                                  |");
+            fragrancia = read.nextLine();
+            System.out.println("| Digite a unidade [caixa, quantidade de mls]           |");
+            unidade = read.nextLine();
+            System.out.println("| Digite a validade: [mm/aaaa] mes/ano                  |");
+            validade = read.nextLine();
+            System.out.println("| Digite o lote:                                        |");
+            lote = read.nextLine();
+            System.out.println("| Digite o preco:\t[Use VÍRGULA para separar os centavos] |");
+            preco = read.nextFloat();
+            read.nextLine();
+            System.out.println("================== CADASTRO DE PERFUMARIA ===============");
+            Perfumaria itemPerf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade);
+            System.out.println("|  Novo Item cadastrado:                                 |");
+            itemPerf.imprimeInfo();
+            listaItens.add(itemPerf);//lista de itens
+            listaLocal.add(itemPerf);//lista local
+            System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
+            opcao = read.nextLine();
+        } while (opcao.equalsIgnoreCase("s"));
+        //imprime os itens cadastrados
+        System.out.println("\nItens de Perfumaria cadastrados:\n");
+        for (int i = 0,  itensPag = 1,  maxItens = 0; i < listaLocal.size(); i++, itensPag++, maxItens++) {
+            listaLocal.get(i).imprimeInfo();
+            if (maxItens != listaLocal.size() && itensPag == 3) {
+                System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
+                read.nextLine();
+                itensPag = 0;
+            }
+        }
+        System.out.println("\nNAO EXISTEM MAIS ITENS A SEREM LISTADOS\nPRESSIONE ENTER PARA RETORNAR AO MENU");
+        read.nextLine();
+    }
 
     //POLIMORFISMO NO MÉTODO
     public static void imprimeListaItens() {
+        Scanner read = new Scanner(System.in);
+        
         System.out.println("Lista de Itens cadastrados:");
-        for (int i = 0; i < listaItens.size(); i++) {
+        for (int i = 0,  itensPag = 1,  maxItens = 0; i < listaItens.size(); i++, itensPag++, maxItens++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                System.out.println("Medicamento:");
+            }
+            if (listaItens.get(i) instanceof Perfumaria) {
+                System.out.println("Perfumaria:");
+            }
             listaItens.get(i).imprimeInfo();
-            System.out.println("");
+            System.out.println("\n");
+            if (maxItens != listaItens.size() && itensPag == 3) {
+                System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
+                read.nextLine();
+                itensPag = 0;
+            }
         }
-    }
-
-    //SOBRECARGA
-    public static void imprimeListaItens(int codIni) {
-        System.out.println("Lista de Itens cadastrados:");
-        int indice = 0;
-        for (int i = 0; i < listaItens.size(); i++) {
-            listaItens.get(i).imprimeInfo();
-        }
+        System.out.println("\nNAO EXISTEM MAIS ITENS A SEREM LISTADOS\nPRESSIONE ENTER PARA RETORNAR AO MENU");
+        read.nextLine();
     }
 
     /**
@@ -169,17 +223,20 @@ public class Farmacia {
         do {
             System.out.println("================= FARMACIA DO POLVO ================= ");
             System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|" + "\n" + " ---------------------------------------------------");
-            System.out.println("| 1. Cadastrar Medicamento                          |" + "\n" + "| 2. Listar Itens cadastrados                       |" + "\n" + "| 0. SAIR DO SISTEMA                                |");
+            System.out.println("| 1. Cadastrar Medicamento                          |" + "\n" + "| 2. Cadastrar Perfumaria                           |" + "\n" + "| 3. Listar Itens cadastrados                       |" + "\n" + "| 0. SAIR DO SISTEMA                                |");
             System.out.println("================= FARMACIA DO POLVO ================= ");
             menu = sc.nextInt();
             switch (menu) {
                 case 0:
-                    System.out.println("Bye =]\nSaindo do Sistema...");
+                    System.out.println("Bye, see you later...\nSaindo do Sistema...");
                     break;
                 case 1:
                     cadastraMedicamento();
                     break;
                 case 2:
+                    cadastraPerfumaria();
+                    break;
+                case 3:
                     imprimeListaItens();
                     break;
                 default:
