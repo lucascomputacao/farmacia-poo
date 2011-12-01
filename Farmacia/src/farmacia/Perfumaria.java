@@ -19,9 +19,7 @@ public class Perfumaria extends Item {
         this.fragrancia = fragrancia;
         this.unidade = unidade;
         this.codPerf = getCodigo();//pega o código sequencial para novo item cadastrado 
-    }
-    
-    
+    }    
 
     @Override
     void imprimeInfo() {   

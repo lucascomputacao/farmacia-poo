@@ -54,7 +54,7 @@ public class Farmacia {
             System.out.println("Digite o lote:");
             lote = read.nextLine();
             System.out.println("Digite o preço unitário:\n" +
-                    "*Use VÍRGULA pra divisão dos centavos*");
+                    "*Use PONTO pra divisão dos centavos*");
             preco = read.nextFloat();
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
@@ -99,9 +99,9 @@ public class Farmacia {
         } while (opcao.equalsIgnoreCase("s"));
         //imprime os itens cadastrados
         System.out.println("\nMedicamentos cadastrados:\n");
-        for (int i = 0,  itensPag = 1,  maxItens = 0; i < listLocal.size(); i++, itensPag++, maxItens++) {
+        for (int i = 0,  itensPag = 1; i < listLocal.size(); i++, itensPag++) {
             listLocal.get(i).imprimeInfo();
-            if (maxItens != listLocal.size() && itensPag == 3) {
+            if (i < listLocal.size() && itensPag > 3) {
                 System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
                 read.nextLine();
                 itensPag = 0;
@@ -130,7 +130,7 @@ public class Farmacia {
             validade = read.nextLine();
             System.out.println("| Digite o lote:                                        |");
             lote = read.nextLine();
-            System.out.println("| Digite o preco:\t[Use VÍRGULA para separar os centavos] |");
+            System.out.println("| Digite o preco:\t[Use PONTO para separar os centavos] |");
             preco = read.nextFloat();
             read.nextLine();
             System.out.println("================== CADASTRO DE PERFUMARIA ===============");
@@ -144,9 +144,10 @@ public class Farmacia {
         } while (opcao.equalsIgnoreCase("s"));
         //imprime os itens cadastrados
         System.out.println("\nItens de Perfumaria cadastrados:\n");
-        for (int i = 0,  itensPag = 1,  maxItens = 0; i < listaLocal.size(); i++, itensPag++, maxItens++) {
+        
+        for (int i = 0,  itensPag = 1; i < listaLocal.size(); i++, itensPag++) {
             listaLocal.get(i).imprimeInfo();
-            if (maxItens != listaLocal.size() && itensPag == 3) {
+            if ( i < listaLocal.size() && itensPag > 3) {
                 System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
                 read.nextLine();
                 itensPag = 0;
@@ -221,10 +222,10 @@ public class Farmacia {
         Scanner sc = new Scanner(System.in);
         //MENU
         do {
-            System.out.println("================= FARMACIA DO POLVO ================= ");
+            System.out.println("================= FARMACIA DO POLVO PAUL================= ");
             System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|" + "\n" + " ---------------------------------------------------");
             System.out.println("| 1. Cadastrar Medicamento                          |" + "\n" + "| 2. Cadastrar Perfumaria                           |" + "\n" + "| 3. Listar Itens cadastrados                       |" + "\n" + "| 0. SAIR DO SISTEMA                                |");
-            System.out.println("================= FARMACIA DO POLVO ================= ");
+            System.out.println("================= FARMACIA DO POLVO PAUL================= ");
             menu = sc.nextInt();
             switch (menu) {
                 case 0:
