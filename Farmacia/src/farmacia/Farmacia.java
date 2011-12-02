@@ -66,6 +66,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     listLocal.add(remedio);
                     remedio.imprimeInfo();
+                    insereMedDB(remedio);
 
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
@@ -74,6 +75,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
                     listLocal.add(remedio);
+                    insereMedDB(remedio);
                 }
             } else {
                 if (posologia.equalsIgnoreCase("")) {
@@ -83,6 +85,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
                     listLocal.add(remedio);
+                    insereMedDB(remedio);
 
                 } else {
                     Medicamentos remedio = new MedicamentoNormal(
@@ -91,6 +94,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
                     listLocal.add(remedio);
+                    insereMedDB(remedio);
                 }
             }
             System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
@@ -190,7 +194,7 @@ public class Farmacia {
         float preco;
         int codigo;
 
-        codigo = remedio.getCodigo();
+        codigo = remedio.getCodMed();
         lote = remedio.getLote();
         nome = remedio.getNome();
         principioAtivo = remedio.getPrincipioAtivo();
@@ -207,7 +211,7 @@ public class Farmacia {
         ConexaoMySQL conection = new ConexaoMySQL();
         if (conection.conectado()) {
             System.out.println("Conectado com o banco de dados \\o/");
-            String sql = "INSERTE INTO ...";
+            String sql = "INSERT INTO TB_MEDICAMENTOS (codigo, nome, lote,preco, validade, tarja, priAtivo, posologia, generico) VALUES(" + codigo+ ","+ nome + ","+ preco+","+ validade+"," +tarja+","+principioAtivo+","+posologia+","+generico+")";
         //conection.atualizar(sql);
         }
 

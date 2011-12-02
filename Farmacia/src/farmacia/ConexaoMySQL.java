@@ -8,19 +8,20 @@ package farmacia;
  *
  * @author lucas
  */
-//import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 
 public class ConexaoMySQL {
 
-    private Connection conn;
+    private static Connection conn;
     private String DRIVER = "com.mysql.jdbc.Driver";
     private String ip = "localhost:3306";//onde o mysql será executado
-    private String bd = "BD_FARMACIA"; //database
+    private String bd = "mysql"; //database
     private String user = "root";
     private String password = "";
     // String de rotina (se repete em todas as conexões) x  para conexão com o MySQL  
