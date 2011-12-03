@@ -28,7 +28,7 @@ public abstract class Medicamentos extends Item {
         this.codMed = getCodigo();//pega código estático para novo item 
     }
     
-    //sobrecarga
+    //sobrecarga -- sem posologia
     public Medicamentos(String tarja, 
             String dataVencimento, String principioAtivo, boolean generico, 
             int codMed, String lote, float preco, String validade, String nome) {

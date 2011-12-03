@@ -22,7 +22,7 @@ public class Farmacia {
     public static void cadastraMedicamento() {
 //    int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico
         Scanner read = new Scanner(System.in);
-        String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "";
+        String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "", crm = null;
         ArrayList<Medicamentos> listLocal = new ArrayList<Medicamentos>();
         int intTarja, codIni = 0, ini = 0;
         float preco;
@@ -60,8 +60,10 @@ public class Farmacia {
             //cria objeto medicamentonormal ou controlado
             if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
                 if (posologia.equalsIgnoreCase("")) {
+                    System.out.println("Digite o CRM do médico responsável pela receita:");
+                    crm = read.nextLine();
                     Medicamentos remedio = new MedicamentoControlado(
-                            tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
+                            crm, tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     listLocal.add(remedio);
@@ -70,7 +72,7 @@ public class Farmacia {
 
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
-                            tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
+                            crm, tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
