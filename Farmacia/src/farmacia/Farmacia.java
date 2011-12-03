@@ -10,6 +10,7 @@ import java.util.*;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
 //import java.sql.Statement;
+
 /**
  *
  * @author lucas
@@ -22,9 +23,9 @@ public class Farmacia {
     public static void cadastraMedicamento() {
 //    int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico
         Scanner read = new Scanner(System.in);
-        String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "", crm = null;
+        String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "";
         ArrayList<Medicamentos> listLocal = new ArrayList<Medicamentos>();
-        int intTarja, codIni = 0, ini = 0;
+        int intTarja, codIni = 0, ini = 0, crm;
         float preco;
         boolean generico = false;
         do {
@@ -39,7 +40,10 @@ public class Farmacia {
                 System.out.println("Escolha a tarja:\n" + "S. Sem tarja (medicamento vendido sem prescrição médica)\n" + "V. Tarja VERMELHA (vendido com receita impressa em papel branco)\n" + "P. Tarja PRETA(vendido com receita impressa em papel azul)");
                 tarja = read.nextLine();
                 tarja = tarja.toUpperCase();
-
+                if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
+                    System.out.println("Digite o CRM do médico responsável pela receita:");
+                    crm = read.nextInt();
+                }
             } while (!(tarja.equalsIgnoreCase("s") || tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p")));
             System.out.println("Medicamento Generico? [S]im ou [N]ao\n" + "'S' para sim e 'N' para não... ");
             gen = read.nextLine();
@@ -53,22 +57,22 @@ public class Farmacia {
             }
             System.out.println("Digite o lote:");
             lote = read.nextLine();
-            System.out.println("Digite o preço unitário:\n" +
-                    "*Use PONTO pra divisão dos centavos*");
+            System.out.println("Digite o preço unitário:\n"
+                    + "*Use PONTO pra divisão dos centavos*");
             preco = read.nextFloat();
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
             if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
+                System.out.println("Digite o CRM do médico responsável pela receita:");
+                crm = read.nextInt();
                 if (posologia.equalsIgnoreCase("")) {
-                    System.out.println("Digite o CRM do médico responsável pela receita:");
-                    crm = read.nextLine();
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
                     listaItens.add(remedio);
                     listLocal.add(remedio);
                     remedio.imprimeInfo();
-                    insereMedDB(remedio);
+                    //insereMedDB(remedio);
 
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
@@ -77,7 +81,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
                     listLocal.add(remedio);
-                    insereMedDB(remedio);
+                    //insereMedDB(remedio);
                 }
             } else {
                 if (posologia.equalsIgnoreCase("")) {
@@ -87,7 +91,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
                     listLocal.add(remedio);
-                    insereMedDB(remedio);
+                    //insereMedDB(remedio);
 
                 } else {
                     Medicamentos remedio = new MedicamentoNormal(
@@ -96,7 +100,7 @@ public class Farmacia {
                     listaItens.add(remedio);
                     remedio.imprimeInfo();
                     listLocal.add(remedio);
-                    insereMedDB(remedio);
+                    //insereMedDB(remedio);
                 }
             }
             System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
@@ -105,7 +109,7 @@ public class Farmacia {
         } while (opcao.equalsIgnoreCase("s"));
         //imprime os itens cadastrados
         System.out.println("\nMedicamentos cadastrados:\n");
-        for (int i = 0,  itensPag = 1; i < listLocal.size(); i++, itensPag++) {
+        for (int i = 0, itensPag = 1; i < listLocal.size(); i++, itensPag++) {
             listLocal.get(i).imprimeInfo();
             if (i < listLocal.size() && itensPag > 3) {
                 System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
@@ -150,10 +154,10 @@ public class Farmacia {
         } while (opcao.equalsIgnoreCase("s"));
         //imprime os itens cadastrados
         System.out.println("\nItens de Perfumaria cadastrados:\n");
-        
-        for (int i = 0,  itensPag = 1; i < listaLocal.size(); i++, itensPag++) {
+
+        for (int i = 0, itensPag = 1; i < listaLocal.size(); i++, itensPag++) {
             listaLocal.get(i).imprimeInfo();
-            if ( i < listaLocal.size() && itensPag > 3) {
+            if (i < listaLocal.size() && itensPag > 3) {
                 System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
                 read.nextLine();
                 itensPag = 0;
@@ -166,9 +170,9 @@ public class Farmacia {
     //POLIMORFISMO NO MÉTODO
     public static void imprimeListaItens() {
         Scanner read = new Scanner(System.in);
-        
+
         System.out.println("Lista de Itens cadastrados:");
-        for (int i = 0,  itensPag = 1,  maxItens = 0; i < listaItens.size(); i++, itensPag++, maxItens++) {
+        for (int i = 0, itensPag = 1, maxItens = 0; i < listaItens.size(); i++, itensPag++, maxItens++) {
             if (listaItens.get(i) instanceof Medicamentos) {
                 System.out.println("Medicamento:");
             }
@@ -213,8 +217,8 @@ public class Farmacia {
         ConexaoMySQL conection = new ConexaoMySQL();
         if (conection.conectado()) {
             System.out.println("Conectado com o banco de dados \\o/");
-            String sql = "INSERT INTO TB_MEDICAMENTOS (codigo, nome, lote,preco, validade, tarja, priAtivo, posologia, generico) VALUES(" + codigo+ ","+ nome + ","+ preco+","+ validade+"," +tarja+","+principioAtivo+","+posologia+","+generico+")";
-        //conection.atualizar(sql);
+            String sql = "INSERT INTO TB_MEDICAMENTOS (codigo, nome, lote,preco, validade, tarja, priAtivo, posologia, generico) VALUES(" + codigo + "," + nome + "," + preco + "," + validade + "," + tarja + "," + principioAtivo + "," + posologia + "," + generico + ")";
+            //conection.atualizar(sql);
         }
 
     }

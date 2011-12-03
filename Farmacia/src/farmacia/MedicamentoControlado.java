@@ -10,19 +10,15 @@ package farmacia;
  */
 public class MedicamentoControlado extends Medicamentos {
     //Registro CRM do médico responsável pela receita
-    private String crm;
+    private int crm;
 
-    public MedicamentoControlado(String crm, String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
+    public MedicamentoControlado(int crm, String tarja, String dataVencimento, String principioAtivo, String posologia, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(tarja, dataVencimento, principioAtivo, posologia, generico, codMed, lote, preco, validade, nome);
         this.crm = crm;
     }
 
-    public MedicamentoControlado(String crm, String tarja, String dataVencimento, String principioAtivo, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
+    public MedicamentoControlado(int crm, String tarja, String dataVencimento, String principioAtivo, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(tarja, dataVencimento, principioAtivo, generico, codMed, lote, preco, validade, nome);
         this.crm = crm;
-    }
-
-    
-
-       
+    }       
 }
