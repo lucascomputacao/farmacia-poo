@@ -235,8 +235,8 @@ public class Farmacia {
             System.out.println("============= PESQUISAR PRODUTOS ================ ");
             System.out.println("| 1. Pesquisa por Codigo                        |");
             System.out.println("| 2. Pesquisa por Nome                          |");
-            System.out.println("| 3. Pesquisa por Principio Ativo               |");
-            System.out.println("| 4. Pesquisa por Genericos                     |");
+            System.out.println("| 3. Pesquisa Medicamento                       |");
+            System.out.println("| 4. Pesquisa Perfumaria                        |");
             System.out.println("============= PESQUISAR PRODUTOS ================ ");
             opcao = read.nextInt();
             read.nextLine();
@@ -252,10 +252,82 @@ public class Farmacia {
                     nome = read.nextLine();
                     buscaItemNome(nome);
                     break;
+                case 3:
+                    buscaMedicamentos();
+                    break;
+                case 4:
+
+                    break;
             }
-            System.out.println("\nNova Busca?\n[S]im ou [N]ao?");
+            System.out.println("\nNova Busca por produtos?\n[S]im ou [N]ao?");
             menu = read.nextLine();
         } while (menu.equalsIgnoreCase("s"));
+    }
+
+    public static void buscaMedicamentos() {
+        int opcao = -1;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("============= PESQUISAR MEDICAMENTOS ================ ");
+            System.out.println("| 1. Pesquisa por Nome                              |");
+            System.out.println("| 2. Pesquisa por Principio Ativo                   |");
+            System.out.println("| 3. Pesquisa por Genericos                         |");
+            System.out.println("============= PESQUISAR MEDICAMENTOS ================ ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o nome do medicamento");
+                    String nome = read.nextLine();
+                    buscaItemNome(nome);
+                    break;
+                case 2:
+                    System.out.println("Digite o principio Ativo que deseja pesquisar");
+                    String priAtivo = read.nextLine();
+                    buscaPriAtivo(priAtivo);
+                    break;
+                case 3:
+                    menuGenericos();
+                    break;
+
+            }
+            System.out.println("Pesquisar novo medicamento?\n[S]im ou [N]ao");
+            menu = read.nextLine();
+        } while (menu.equalsIgnoreCase("s"));
+    }
+
+    public static void menuGenericos() {
+        int opcao = -1;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("============= PESQUISAR GENERICOS ================ ");
+            System.out.println("| 1. Pesquisa por Nome                              |");
+            System.out.println("| 2. Pesquisa por Principio Ativo                   |");
+            System.out.println("============= PESQUISAR GENERICOS ================ ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o nome do generico");
+                    String nome = read.nextLine();
+                    buscaGenNome(nome);
+                    break;
+                case 2:
+                    System.out.println("Digite o principio Ativo que deseja pesquisar");
+                    String priAtivo = read.nextLine();
+                    buscaPriAtivo(priAtivo);
+                    break;
+                case 3:
+                    menuGenericos();
+                    break;
+
+            }
+            System.out.println("Pesquisar novo medicamento Generico?\n[S]im ou [N]ao");
+            menu = read.nextLine();
+        } while (menu.equalsIgnoreCase("s"));
+
     }
 
     public static void buscaItemCodigo(int codigo) {
@@ -281,6 +353,51 @@ public class Farmacia {
                 System.out.println("Item " + nome + " nao encontrado");
             }
         }
+    }
+
+    public static void buscaPriAtivo(String priAtivo) {
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i).getNome().equalsIgnoreCase(priAtivo)) {
+                listaItens.get(i).imprimeInfo();
+                System.out.println();
+            }
+            if (i == listaItens.size()) {
+                System.out.println("Principio Ativo " + priAtivo + " nao encontrado nos medicamentos");
+            }
+        }
+    }
+
+    public static void buscaGenNome(String nome) {
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(i);
+                if (med.isGenerico() && med.getNome().equalsIgnoreCase(nome)) {
+                    med.imprimeInfo();
+                }
+            }
+            if (i == listaItens.size()) {
+                System.out.println("Generico de " + nome + " nao foi encontrado");
+            }
+        }
+
+    }
+
+    public static void buscaGenPriAtivo(String priAtivo) {
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(i);
+                if (med.isGenerico() && med.getNome().equalsIgnoreCase(priAtivo)) {
+                    med.imprimeInfo();
+                }
+            }
+            if (i == listaItens.size() - 1) {
+                System.out.println("Principio Ativo " + priAtivo + " nao foi encontrado");
+            }
+        }
+
     }
 
     /**
