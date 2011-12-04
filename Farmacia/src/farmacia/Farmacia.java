@@ -288,6 +288,7 @@ public class Farmacia {
                     buscaPriAtivo(priAtivo);
                     break;
                 case 3:
+                    
                     menuGenericos();
                     break;
 
@@ -370,14 +371,16 @@ public class Farmacia {
 
     public static void buscaGenNome(String nome) {
         Scanner read = new Scanner(System.in);
+        int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i) instanceof Medicamentos) {
                 Medicamentos med = (Medicamentos) listaItens.get(i);
                 if (med.isGenerico() && med.getNome().equalsIgnoreCase(nome)) {
                     med.imprimeInfo();
+                    count++;
                 }
             }
-            if (i == listaItens.size()) {
+            if (count == 0 || listaItens.size() == 0) {
                 System.out.println("Generico de " + nome + " nao foi encontrado");
             }
         }
@@ -385,19 +388,19 @@ public class Farmacia {
     }
 
     public static void buscaGenPriAtivo(String priAtivo) {
-        Scanner read = new Scanner(System.in);
+        int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i) instanceof Medicamentos) {
                 Medicamentos med = (Medicamentos) listaItens.get(i);
-                if (med.isGenerico() && med.getNome().equalsIgnoreCase(priAtivo)) {
+                if (med.isGenerico() && med.getPrincipioAtivo().equalsIgnoreCase(priAtivo)) {
                     med.imprimeInfo();
+                    count++;
                 }
             }
-            if (i == listaItens.size() - 1) {
-                System.out.println("Principio Ativo " + priAtivo + " nao foi encontrado");
-            }
         }
-
+        if (count == 0) {
+            System.out.println("Generico com Principio Ativo " + priAtivo + " nao foi encontrado");
+        }
     }
 
     /**
@@ -406,7 +409,7 @@ public class Farmacia {
     public static void main(String[] args) {
         // TODO code application logic here
         int menu = -1;
-        Scanner sc = new Scanner(System.in);
+        Scanner read = new Scanner(System.in);
         //MENU
         do {
             System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
@@ -418,7 +421,7 @@ public class Farmacia {
             System.out.println("| 4. Pesquisar Item                                 |");
             System.out.println("| 0. SAIR DO SISTEMA                                |");
             System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
-            menu = sc.nextInt();
+            menu = read.nextInt();
             switch (menu) {
                 case 0:
                     System.out.println("Bye, see you later...\nSaindo do Sistema...");
@@ -433,7 +436,14 @@ public class Farmacia {
                     imprimeListaItens();
                     break;
                 case 4:
-                    pesquisarItem();
+                    if(!listaItens.isEmpty()){
+                        pesquisarItem();
+                    }else{
+                        System.out.println("Nao existem itens cadastrados\nCadastre um item antes de pesquisar");
+                        System.out.println("Tecle ENTER para voltar ao menu");
+                        read.nextLine();
+                        read.nextLine();
+                    }
                     break;
                 default:
                     System.out.println("Digite número válido ou 0 pra sair...");
