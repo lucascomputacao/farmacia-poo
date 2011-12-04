@@ -50,7 +50,7 @@ public class Venda {
 
     public final void colocaDataVenda(){
         String novaData = getDia()+"/"+getMes()+"/"+getAno();
-        setDataVenda(dataVenda);
+        setDataVenda(novaData);
     }
     public String getDataVenda() {
         return dataVenda;
