@@ -228,7 +228,7 @@ public class Farmacia {
 
     public static void pesquisarItem() {
         int opcao = -1, codigo;
-        String nome = null;
+        String nome = null, menu = null;
         Scanner read = new Scanner(System.in);
 
         do {
@@ -243,37 +243,39 @@ public class Farmacia {
                     System.out.println("Digite o codigo do produto que deseja pesquisar");
                     codigo = read.nextInt();
                     read.nextLine();
-
+                    buscaItemCodigo(codigo);
                     break;
                 case 2:
                     System.out.println("Digite o nome do produto que deseja pesquisar");
                     nome = read.nextLine();
+                    buscaItemNome(nome);
                     break;
             }
-        } while (opcao < 1 || opcao > 2);
+            System.out.println("Nova Busca?\n[S]im ou [N]ao?");
+            menu = read.nextLine();
+        } while (menu.equalsIgnoreCase("s"));
     }
 
     public static void buscaItemCodigo(int codigo) {
-        int count = 0;
-        for (int i = 0; i < listaItens.size(); i++, count++) {
+        for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getCodigo() == codigo) {
                 listaItens.get(i).imprimeInfo();
             }
-        }
-        if (count == listaItens.size()) {
-            System.out.println("Item de codigo " + codigo + " nao encontrado");
+            if (i == listaItens.size()) {
+                System.out.println("Item de codigo " + codigo + " nao encontrado");
+            }
         }
     }
 
-    public void buscaItemNome(String nome) {
-        int count = 0;
-        for (int i = 0; i < listaItens.size(); i++, count++) {
+    public static void buscaItemNome(String nome) {
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
                 listaItens.get(i).imprimeInfo();
             }
-        }
-        if (count == listaItens.size()) {
-            System.out.println("Item " + nome + " nao encontrado");
+            if (i == listaItens.size()) {
+                System.out.println("Item " + nome + " nao encontrado");
+            }
         }
     }
 
