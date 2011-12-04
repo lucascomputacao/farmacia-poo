@@ -226,7 +226,7 @@ public class Farmacia {
 
     }
 
-    public static void consultarItem() {
+    public static void pesquisarItem() {
         int opcao = -1, codigo;
         String nome = null;
         Scanner read = new Scanner(System.in);
@@ -292,7 +292,7 @@ public class Farmacia {
             System.out.println("| 1. Cadastrar Medicamento                          |");
             System.out.println("| 2. Cadastrar Perfumaria                           |");
             System.out.println("| 3. Listar Itens cadastrados                       |");
-            System.out.println("| 4. Consultar Item                                 |");
+            System.out.println("| 4. Pesquisar Item                                 |");
             System.out.println("| 0. SAIR DO SISTEMA                                |");
             System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
             menu = sc.nextInt();
@@ -310,7 +310,7 @@ public class Farmacia {
                     imprimeListaItens();
                     break;
                 case 4:
-                    consultarItem();
+                    pesquisarItem();
                     break;
                 default:
                     System.out.println("Digite número válido ou 0 pra sair...");
