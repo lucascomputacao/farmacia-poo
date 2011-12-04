@@ -37,7 +37,7 @@ public class Venda {
 
     public void addListaItensVenda(Item item) {
         listaItensVenda.add(item);
-        System.out.println("Item: "+item.getCodigo()+"|"+item.getNome()+" adicionado a venda");
+        System.out.println("Item: "+item.getCodigo()+"|"+item.getNome()+" adicionado a compra");
     }
 
     public long getAno() {

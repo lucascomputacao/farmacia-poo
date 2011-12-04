@@ -280,15 +280,25 @@ public class Farmacia {
                 case 1:
                     System.out.println("Digite o nome do medicamento");
                     String nome = read.nextLine();
-                    buscaItemNome(nome);
+                    int qtdNome = buscaItemNome(nome);
+                    if (qtdNome > 0) {
+                        System.out.println(qtdNome + " ocorrencias do nome" + nome);
+                    } else {
+                        System.out.println("Busca por " + nome + "nao obteve resultados");
+                    }
                     break;
                 case 2:
                     System.out.println("Digite o principio Ativo que deseja pesquisar");
                     String priAtivo = read.nextLine();
-                    buscaPriAtivo(priAtivo);
+                    int qtdPri = buscaPriAtivo(priAtivo);
+                    if (qtdPri > 0) {
+                        System.out.println(qtdPri + " ocorrencias do " + priAtivo);
+                    } else {
+                        System.out.println("Busca por " + priAtivo + " nao obteve resultados");
+                    }
                     break;
                 case 3:
-                    
+
                     menuGenericos();
                     break;
 
@@ -303,25 +313,44 @@ public class Farmacia {
         String menu = null;
         Scanner read = new Scanner(System.in);
         do {
-            System.out.println("============= PESQUISAR GENERICOS ================ ");
-            System.out.println("| 1. Pesquisa por Nome                              |");
-            System.out.println("| 2. Pesquisa por Principio Ativo                   |");
-            System.out.println("============= PESQUISAR GENERICOS ================ ");
+            System.out.println("============== PESQUISAR GENERICOS ================== ");
+            System.out.println("| 1. Pesquisa por Codigo                            |");
+            System.out.println("| 2. Pesquisa por Nome                              |");
+            System.out.println("| 3. Pesquisa por Principio Ativo                   |");
+            System.out.println("============== PESQUISAR GENERICOS ================== ");
             opcao = read.nextInt();
             read.nextLine();
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o nome do generico");
-                    String nome = read.nextLine();
-                    buscaGenNome(nome);
+                    System.out.println("Digite o codigo do generico que deseja pesquisar");
+                    int codGen = read.nextInt();
+                    read.nextLine();
+                    int qtdCodGen = buscaGenCod(codGen);
+                    if (qtdCodGen > 0){
+                        System.out.println(qtdCodGen+" generico(s) com o codigo "+ codGen);
+                    }else{
+                        System.out.println("Nao foi encontrado codigo "+codGen+" na busca por genericos");
+                    }
                     break;
                 case 2:
-                    System.out.println("Digite o principio Ativo que deseja pesquisar");
-                    String priAtivo = read.nextLine();
-                    buscaPriAtivo(priAtivo);
+                    System.out.println("Digite o nome do generico");
+                    String nome = read.nextLine();
+                    int qtdGen = buscaGenNome(nome);
+                    if (qtdGen > 0) {
+                        System.out.println(qtdGen + " Generico(s) encontrados");
+                    } else {
+                        System.out.println("Nao foi encontrado " + nome + " na busca por genericos");
+                    }
                     break;
                 case 3:
-                    menuGenericos();
+                    System.out.println("Digite o principio Ativo que deseja pesquisar");
+                    String priAtivo = read.nextLine();
+                    int qtdPriAtiv = buscaGenPriAtivo(priAtivo);
+                    if(qtdPriAtiv > 0){
+                        System.out.println(qtdPriAtiv+" generico(s) encontrados");
+                    }else{
+                        System.out.println("Nao foi encontrado principio ativo "+priAtivo+" na busca por genericos");
+                    }
                     break;
 
             }
@@ -334,6 +363,12 @@ public class Farmacia {
     public static void buscaItemCodigo(int codigo) {
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getCodigo() == codigo) {
+                if(listaItens.get(i) instanceof Medicamentos){
+                    System.out.println("Medicamento:");
+                }
+                if(listaItens.get(i) instanceof Perfumaria){
+                    System.out.println("Perfumaria: ");
+                }                    
                 listaItens.get(i).imprimeInfo();
                 System.out.println();
             }
@@ -343,33 +378,61 @@ public class Farmacia {
         }
     }
 
-    public static void buscaItemNome(String nome) {
+    public static int buscaItemNome(String nome) {
         Scanner read = new Scanner(System.in);
+        int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
+                if(listaItens.get(i) instanceof Medicamentos){
+                    System.out.println("Medicamento:");
+                }
+                if(listaItens.get(i) instanceof Perfumaria){
+                    System.out.println("Perfumaria: ");
+                }
                 listaItens.get(i).imprimeInfo();
                 System.out.println();
+                count++;
             }
             if (i == listaItens.size()) {
                 System.out.println("Item " + nome + " nao encontrado");
             }
         }
+        return count;
     }
 
-    public static void buscaPriAtivo(String priAtivo) {
+    public static int buscaPriAtivo(String priAtivo) {
         Scanner read = new Scanner(System.in);
+        int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getNome().equalsIgnoreCase(priAtivo)) {
+                if(listaItens.get(i) instanceof Medicamentos){
+                    System.out.println("Medicamento:");
+                }
+                if(listaItens.get(i) instanceof Perfumaria){
+                    System.out.println("Perfumaria: ");
+                }
                 listaItens.get(i).imprimeInfo();
                 System.out.println();
-            }
-            if (i == listaItens.size()) {
-                System.out.println("Principio Ativo " + priAtivo + " nao encontrado nos medicamentos");
+                count++;
             }
         }
+        return count;
     }
 
-    public static void buscaGenNome(String nome) {
+    public static int buscaGenCod(int cod){
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(i);
+                if (med.isGenerico() && med.getCodMed() == cod) {
+                    med.imprimeInfo();
+                    count++;
+                }
+            }        
+        }
+        return count;
+    }
+    public static int buscaGenNome(String nome) {
         Scanner read = new Scanner(System.in);
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -380,14 +443,14 @@ public class Farmacia {
                     count++;
                 }
             }
-            if (count == 0 || listaItens.size() == 0) {
+            if (count == 0 || listaItens.isEmpty()) {
                 System.out.println("Generico de " + nome + " nao foi encontrado");
             }
         }
-
+        return count;
     }
 
-    public static void buscaGenPriAtivo(String priAtivo) {
+    public static int buscaGenPriAtivo(String priAtivo) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i) instanceof Medicamentos) {
@@ -401,6 +464,7 @@ public class Farmacia {
         if (count == 0) {
             System.out.println("Generico com Principio Ativo " + priAtivo + " nao foi encontrado");
         }
+        return count;
     }
 
     /**
@@ -436,9 +500,9 @@ public class Farmacia {
                     imprimeListaItens();
                     break;
                 case 4:
-                    if(!listaItens.isEmpty()){
+                    if (!listaItens.isEmpty()) {
                         pesquisarItem();
-                    }else{
+                    } else {
                         System.out.println("Nao existem itens cadastrados\nCadastre um item antes de pesquisar");
                         System.out.println("Tecle ENTER para voltar ao menu");
                         read.nextLine();
