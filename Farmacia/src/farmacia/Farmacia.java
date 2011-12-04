@@ -62,7 +62,7 @@ public class Farmacia {
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
             if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
-                
+
                 if (posologia.equalsIgnoreCase("")) {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
@@ -189,7 +189,7 @@ public class Farmacia {
                 itensPag = 0;
             }
         }
-        System.out.println("Total de Itens: "+ listaItens.size());
+        System.out.println("Total de Itens: " + listaItens.size());
         System.out.println("\nNAO EXISTEM MAIS ITENS A SEREM LISTADOS\nPRESSIONE ENTER PARA RETORNAR AO MENU");
         read.nextLine();
     }
@@ -243,6 +243,7 @@ public class Farmacia {
                     System.out.println("Digite o codigo do produto que deseja pesquisar");
                     codigo = read.nextInt();
                     read.nextLine();
+
                     break;
                 case 2:
                     System.out.println("Digite o nome do produto que deseja pesquisar");
@@ -250,6 +251,30 @@ public class Farmacia {
                     break;
             }
         } while (opcao < 1 || opcao > 2);
+    }
+
+    public static void buscaItemCodigo(int codigo) {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++, count++) {
+            if (listaItens.get(i).getCodigo() == codigo) {
+                listaItens.get(i).imprimeInfo();
+            }
+        }
+        if (count == listaItens.size()) {
+            System.out.println("Item de codigo " + codigo + " nao encontrado");
+        }
+    }
+
+    public void buscaItemNome(String nome) {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++, count++) {
+            if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
+                listaItens.get(i).imprimeInfo();
+            }
+        }
+        if (count == listaItens.size()) {
+            System.out.println("Item " + nome + " nao encontrado");
+        }
     }
 
     /**

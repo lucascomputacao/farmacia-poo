@@ -27,7 +27,7 @@ public class Venda {
     long ano = gc.get((GregorianCalendar.YEAR));
 
     public Venda(int idVenda, int qtd, float vlrUnit, float vlrTotal) {
-        this.idVenda = idVenda;
+        this.idVenda = idVenda++;
         this.qtd = qtd;
         this.vlrUnit = vlrUnit;
         this.vlrTotal = vlrTotal;
@@ -58,7 +58,7 @@ public class Venda {
 
     public void setDataVenda(String dataVenda) {
         this.dataVenda = dataVenda;
-    }
+    }   
 
     public long getDia() {
         return dia;
