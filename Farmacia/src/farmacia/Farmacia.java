@@ -169,7 +169,7 @@ public class Farmacia {
         read.nextLine();
     }
 
-    //POLIMORFISMO NO MÉTODO
+    //MÉTODO POLIMÓRFICO
     public static void imprimeListaItens() {
         Scanner read = new Scanner(System.in);
 
@@ -183,14 +183,14 @@ public class Farmacia {
             }
             listaItens.get(i).imprimeInfo();
             System.out.println("\n");
-            if (maxItens != listaItens.size() && itensPag == 3) {
+            if (itensPag > 3 && listaItens.size() > 3) {
                 System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
                 read.nextLine();
                 itensPag = 0;
             }
         }
         System.out.println("Total de Itens: " + listaItens.size());
-        System.out.println("\nNAO EXISTEM MAIS ITENS A SEREM LISTADOS\nPRESSIONE ENTER PARA RETORNAR AO MENU");
+        System.out.println("\nPRESSIONE ENTER PARA RETORNAR AO MENU");
         read.nextLine();
     }
 
@@ -233,8 +233,10 @@ public class Farmacia {
 
         do {
             System.out.println("============= PESQUISAR PRODUTOS ================ ");
-            System.out.println("| 1. Pesquisa por codigo                        |");
-            System.out.println("| 2. Pesquisa por nome                          |");
+            System.out.println("| 1. Pesquisa por Codigo                        |");
+            System.out.println("| 2. Pesquisa por Nome                          |");
+            System.out.println("| 3. Pesquisa por Principio Ativo               |");
+            System.out.println("| 4. Pesquisa por Genericos                     |");
             System.out.println("============= PESQUISAR PRODUTOS ================ ");
             opcao = read.nextInt();
             read.nextLine();
@@ -251,7 +253,7 @@ public class Farmacia {
                     buscaItemNome(nome);
                     break;
             }
-            System.out.println("Nova Busca?\n[S]im ou [N]ao?");
+            System.out.println("\nNova Busca?\n[S]im ou [N]ao?");
             menu = read.nextLine();
         } while (menu.equalsIgnoreCase("s"));
     }
@@ -260,6 +262,7 @@ public class Farmacia {
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getCodigo() == codigo) {
                 listaItens.get(i).imprimeInfo();
+                System.out.println();
             }
             if (i == listaItens.size()) {
                 System.out.println("Item de codigo " + codigo + " nao encontrado");
@@ -272,6 +275,7 @@ public class Farmacia {
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
                 listaItens.get(i).imprimeInfo();
+                System.out.println();
             }
             if (i == listaItens.size()) {
                 System.out.println("Item " + nome + " nao encontrado");
