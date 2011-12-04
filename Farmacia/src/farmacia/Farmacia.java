@@ -25,11 +25,14 @@ public class Farmacia {
         Scanner read = new Scanner(System.in);
         String nome, principioAtivo, dataVencimento, tarja = "n", gen, posologia, lote, opcao = "";
         ArrayList<Medicamentos> listLocal = new ArrayList<Medicamentos>();
-        int intTarja, codIni = 0, ini = 0, crm;
+        int intTarja, codIni = 0, ini = 0, crm = 0, quantidade = 0;
         float preco;
         boolean generico = false;
         do {
             System.out.println("============== CADASTRO DE MEDICAMENTOS =============");
+            System.out.println("Digite a quantidade de medicamentos");
+            quantidade = read.nextInt();
+            read.nextLine();
             System.out.println("Digite o nome do remédio:");
             nome = read.nextLine();
             System.out.println("Digite a validade: [mm/aaaa] mes/ano");
@@ -40,10 +43,6 @@ public class Farmacia {
                 System.out.println("Escolha a tarja:\n" + "S. Sem tarja (medicamento vendido sem prescrição médica)\n" + "V. Tarja VERMELHA (vendido com receita impressa em papel branco)\n" + "P. Tarja PRETA(vendido com receita impressa em papel azul)");
                 tarja = read.nextLine();
                 tarja = tarja.toUpperCase();
-                if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
-                    System.out.println("Digite o CRM do médico responsável pela receita:");
-                    crm = read.nextInt();
-                }
             } while (!(tarja.equalsIgnoreCase("s") || tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p")));
             System.out.println("Medicamento Generico? [S]im ou [N]ao\n" + "'S' para sim e 'N' para não... ");
             gen = read.nextLine();
@@ -63,44 +62,47 @@ public class Farmacia {
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
             if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
-                System.out.println("Digite o CRM do médico responsável pela receita:");
-                crm = read.nextInt();
+                
                 if (posologia.equalsIgnoreCase("")) {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
-                    listaItens.add(remedio);
-                    listLocal.add(remedio);
-                    remedio.imprimeInfo();
+                    for (int i = 0; i < quantidade; i++) {
+                        listaItens.add(remedio);
+                        listLocal.add(remedio);
+                        remedio.imprimeInfo();
+                    }
                     //insereMedDB(remedio);
 
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
-                    listaItens.add(remedio);
-                    remedio.imprimeInfo();
-                    listLocal.add(remedio);
-                    //insereMedDB(remedio);
+                    for (int i = 0; i < quantidade; i++) {
+                        listaItens.add(remedio);
+                        listLocal.add(remedio);
+                        remedio.imprimeInfo();
+                    }//insereMedDB(remedio);
                 }
             } else {
                 if (posologia.equalsIgnoreCase("")) {
                     Medicamentos remedio = new MedicamentoNormal(
                             tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
-                    listaItens.add(remedio);
-                    remedio.imprimeInfo();
-                    listLocal.add(remedio);
-                    //insereMedDB(remedio);
-
+                    for (int i = 0; i < quantidade; i++) {
+                        listaItens.add(remedio);
+                        listLocal.add(remedio);
+                        remedio.imprimeInfo();
+                    }
                 } else {
                     Medicamentos remedio = new MedicamentoNormal(
                             tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
                     System.out.println("Novo medicamento cadastrado:");
-                    listaItens.add(remedio);
-                    remedio.imprimeInfo();
-                    listLocal.add(remedio);
-                    //insereMedDB(remedio);
+                    for (int i = 0; i < quantidade; i++) {
+                        listaItens.add(remedio);
+                        listLocal.add(remedio);
+                        remedio.imprimeInfo();
+                    }
                 }
             }
             System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
@@ -187,6 +189,7 @@ public class Farmacia {
                 itensPag = 0;
             }
         }
+        System.out.println("Total de Itens: "+ listaItens.size());
         System.out.println("\nNAO EXISTEM MAIS ITENS A SEREM LISTADOS\nPRESSIONE ENTER PARA RETORNAR AO MENU");
         read.nextLine();
     }
@@ -223,6 +226,32 @@ public class Farmacia {
 
     }
 
+    public static void consultarItem() {
+        int opcao = -1, codigo;
+        String nome = null;
+        Scanner read = new Scanner(System.in);
+
+        do {
+            System.out.println("============= PESQUISAR PRODUTOS ================ ");
+            System.out.println("| 1. Pesquisa por codigo                        |");
+            System.out.println("| 2. Pesquisa por nome                          |");
+            System.out.println("============= PESQUISAR PRODUTOS ================ ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o codigo do produto que deseja pesquisar");
+                    codigo = read.nextInt();
+                    read.nextLine();
+                    break;
+                case 2:
+                    System.out.println("Digite o nome do produto que deseja pesquisar");
+                    nome = read.nextLine();
+                    break;
+            }
+        } while (opcao < 1 || opcao > 2);
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -232,10 +261,15 @@ public class Farmacia {
         Scanner sc = new Scanner(System.in);
         //MENU
         do {
-            System.out.println("================= FARMACIA DO POLVO PAUL================= ");
-            System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|" + "\n" + " ---------------------------------------------------");
-            System.out.println("| 1. Cadastrar Medicamento                          |" + "\n" + "| 2. Cadastrar Perfumaria                           |" + "\n" + "| 3. Listar Itens cadastrados                       |" + "\n" + "| 0. SAIR DO SISTEMA                                |");
-            System.out.println("================= FARMACIA DO POLVO PAUL================= ");
+            System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
+            System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 1. Cadastrar Medicamento                          |");
+            System.out.println("| 2. Cadastrar Perfumaria                           |");
+            System.out.println("| 3. Listar Itens cadastrados                       |");
+            System.out.println("| 4. Consultar Item                                 |");
+            System.out.println("| 0. SAIR DO SISTEMA                                |");
+            System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
             menu = sc.nextInt();
             switch (menu) {
                 case 0:
@@ -249,6 +283,9 @@ public class Farmacia {
                     break;
                 case 3:
                     imprimeListaItens();
+                    break;
+                case 4:
+                    consultarItem();
                     break;
                 default:
                     System.out.println("Digite número válido ou 0 pra sair...");
