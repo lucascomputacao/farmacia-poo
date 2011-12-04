@@ -20,7 +20,7 @@ public class Venda {
     private String dataVenda = null;
     private int idVenda, qtd;
     private float vlrUnit, vlrTotal;
-    //data da venda
+    //Inicializando as variáveis da data da venda
     GregorianCalendar gc = new GregorianCalendar();
     long dia = gc.get(GregorianCalendar.DAY_OF_MONTH);
     long mes = gc.get(GregorianCalendar.MONTH) + 1;
@@ -36,6 +36,8 @@ public class Venda {
     }
 
     public void addListaItensVenda(Item item) {
+        listaItensVenda.add(item);
+        System.out.println("Item: "+item.getCodigo()+"|"+item.getNome()+" adicionado a venda");
     }
 
     public long getAno() {
