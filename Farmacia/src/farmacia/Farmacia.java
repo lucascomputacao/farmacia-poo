@@ -253,10 +253,10 @@ public class Farmacia {
                     buscaItemNome(nome);
                     break;
                 case 3:
-                    buscaMedicamentos();
+                    menuBuscaMedicamentos();
                     break;
                 case 4:
-
+                    menuBuscaPerfumaria();
                     break;
             }
             System.out.println("\nNova Busca por produtos?\n[S]im ou [N]ao?");
@@ -264,7 +264,36 @@ public class Farmacia {
         } while (menu.equalsIgnoreCase("s"));
     }
 
-    public static void buscaMedicamentos() {
+    public static void menuBuscaPerfumaria() {
+        int opcao = -1;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("============= PESQUISAR PERFUMARIA ================ ");
+            System.out.println("| 1. Pesquisa por Codigo                          |");
+            System.out.println("| 2. Pesquisa por Nome                            |");
+            System.out.println("| 3. Pesquisa por Fragrancia                      |");
+            System.out.println("============= PESQUISAR PERFUMARIA ================ ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;
+                case 3:
+                    
+                    break;
+                    
+            }
+            System.out.println("Pesquisar novo item de perfumaria?\n[S]im ou [N]ao");
+            menu = read.nextLine();
+        } while (menu.equalsIgnoreCase("s"));
+    }
+
+    public static void menuBuscaMedicamentos() {
         int opcao = -1;
         String menu = null;
         Scanner read = new Scanner(System.in);
@@ -298,10 +327,8 @@ public class Farmacia {
                     }
                     break;
                 case 3:
-
                     menuGenericos();
                     break;
-
             }
             System.out.println("Pesquisar novo medicamento?\n[S]im ou [N]ao");
             menu = read.nextLine();
@@ -326,10 +353,10 @@ public class Farmacia {
                     int codGen = read.nextInt();
                     read.nextLine();
                     int qtdCodGen = buscaGenCod(codGen);
-                    if (qtdCodGen > 0){
-                        System.out.println(qtdCodGen+" generico(s) com o codigo "+ codGen);
-                    }else{
-                        System.out.println("Nao foi encontrado codigo "+codGen+" na busca por genericos");
+                    if (qtdCodGen > 0) {
+                        System.out.println(qtdCodGen + " generico(s) com o codigo " + codGen);
+                    } else {
+                        System.out.println("Nao foi encontrado codigo " + codGen + " na busca por genericos");
                     }
                     break;
                 case 2:
@@ -346,10 +373,10 @@ public class Farmacia {
                     System.out.println("Digite o principio Ativo que deseja pesquisar");
                     String priAtivo = read.nextLine();
                     int qtdPriAtiv = buscaGenPriAtivo(priAtivo);
-                    if(qtdPriAtiv > 0){
-                        System.out.println(qtdPriAtiv+" generico(s) encontrados");
-                    }else{
-                        System.out.println("Nao foi encontrado principio ativo "+priAtivo+" na busca por genericos");
+                    if (qtdPriAtiv > 0) {
+                        System.out.println(qtdPriAtiv + " generico(s) encontrados");
+                    } else {
+                        System.out.println("Nao foi encontrado principio ativo " + priAtivo + " na busca por genericos");
                     }
                     break;
 
@@ -363,12 +390,12 @@ public class Farmacia {
     public static void buscaItemCodigo(int codigo) {
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getCodigo() == codigo) {
-                if(listaItens.get(i) instanceof Medicamentos){
+                if (listaItens.get(i) instanceof Medicamentos) {
                     System.out.println("Medicamento:");
                 }
-                if(listaItens.get(i) instanceof Perfumaria){
+                if (listaItens.get(i) instanceof Perfumaria) {
                     System.out.println("Perfumaria: ");
-                }                    
+                }
                 listaItens.get(i).imprimeInfo();
                 System.out.println();
             }
@@ -383,10 +410,10 @@ public class Farmacia {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
-                if(listaItens.get(i) instanceof Medicamentos){
+                if (listaItens.get(i) instanceof Medicamentos) {
                     System.out.println("Medicamento:");
                 }
-                if(listaItens.get(i) instanceof Perfumaria){
+                if (listaItens.get(i) instanceof Perfumaria) {
                     System.out.println("Perfumaria: ");
                 }
                 listaItens.get(i).imprimeInfo();
@@ -405,10 +432,10 @@ public class Farmacia {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getNome().equalsIgnoreCase(priAtivo)) {
-                if(listaItens.get(i) instanceof Medicamentos){
+                if (listaItens.get(i) instanceof Medicamentos) {
                     System.out.println("Medicamento:");
                 }
-                if(listaItens.get(i) instanceof Perfumaria){
+                if (listaItens.get(i) instanceof Perfumaria) {
                     System.out.println("Perfumaria: ");
                 }
                 listaItens.get(i).imprimeInfo();
@@ -419,7 +446,7 @@ public class Farmacia {
         return count;
     }
 
-    public static int buscaGenCod(int cod){
+    public static int buscaGenCod(int cod) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i) instanceof Medicamentos) {
@@ -428,10 +455,11 @@ public class Farmacia {
                     med.imprimeInfo();
                     count++;
                 }
-            }        
+            }
         }
         return count;
     }
+
     public static int buscaGenNome(String nome) {
         Scanner read = new Scanner(System.in);
         int count = 0;
