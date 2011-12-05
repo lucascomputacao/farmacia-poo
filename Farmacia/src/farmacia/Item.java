@@ -22,9 +22,7 @@ public abstract class Item {
         this.validade = validade;
         this.nome = nome;
         codigo++;
-    }
-
-      
+    }     
     
     //MÉTODO ABSTRATO
 
@@ -38,11 +36,10 @@ public abstract class Item {
         this.nome = nome;
     }
 
-        /**
-     * 
-     * @param codigo 
-     * @return
-     */
+    public static void decreCod(){
+        Item.codigo--;
+        System.out.println("CODIGO = "+Item.codigo);
+    }   
     public static void setCodigo(int codigo) {
         Item.codigo = codigo;
     }

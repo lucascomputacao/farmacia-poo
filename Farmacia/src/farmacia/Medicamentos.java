@@ -4,6 +4,8 @@
  */
 package farmacia;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Lucas&Danilo
@@ -16,8 +18,8 @@ public abstract class Medicamentos extends Item {
     private boolean generico;
     private int codMed;
 
-    public Medicamentos(String tarja, 
-            String dataVencimento, String principioAtivo, String posologia, 
+    public Medicamentos(String tarja,
+            String dataVencimento, String principioAtivo, String posologia,
             boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(lote, preco, validade, nome);
         this.tarja = tarja;
@@ -27,10 +29,10 @@ public abstract class Medicamentos extends Item {
         this.generico = generico;
         this.codMed = getCodigo();//pega código estático para novo item 
     }
-    
+
     //sobrecarga -- sem posologia
-    public Medicamentos(String tarja, 
-            String dataVencimento, String principioAtivo, boolean generico, 
+    public Medicamentos(String tarja,
+            String dataVencimento, String principioAtivo, boolean generico,
             int codMed, String lote, float preco, String validade, String nome) {
         super(lote, preco, validade, nome);
         this.tarja = tarja;
@@ -39,16 +41,14 @@ public abstract class Medicamentos extends Item {
         this.generico = generico;
         this.codMed = getCodigo();
     }
-    
 
-    
     @Override
     public void imprimeInfo() {
-        String iTarja = "", iGenerico ;
-        if (this.isGenerico()){
-            iGenerico  = "Generico";
-        }else{
-            iGenerico  = "De Referencia";
+        String iTarja = "", iGenerico;
+        if (this.isGenerico()) {
+            iGenerico = "Generico";
+        } else {
+            iGenerico = "De Referencia";
         }
         if (getTarja().equalsIgnoreCase("s")) {
             iTarja = "Sem Tarja [Venda livre - nao necessita de prescricao]";
@@ -65,7 +65,7 @@ public abstract class Medicamentos extends Item {
                 + "Posologia: " + getPosologia() + "\n"
                 + "Tarja: " + iTarja + "\n"
                 + "Tipo: " + iGenerico + "\n"
-                + "Validade: " + getDataVencimento()+ "\n"
+                + "Validade: " + getDataVencimento() + "\n"
                 + "Lote: " + getLote() + "\n"
                 + "Preco: " + getPreco());
     }
@@ -117,5 +117,4 @@ public abstract class Medicamentos extends Item {
     public void setTarja(String tarja) {
         this.tarja = tarja;
     }
-
 }
