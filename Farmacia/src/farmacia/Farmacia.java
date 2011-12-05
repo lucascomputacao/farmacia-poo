@@ -62,7 +62,6 @@ public class Farmacia {
             read.nextLine();
             //cria objeto medicamentonormal ou controlado
             if ((tarja.equalsIgnoreCase("v") || tarja.equalsIgnoreCase("p"))) {
-
                 if (posologia.equalsIgnoreCase("")) {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
@@ -77,7 +76,6 @@ public class Farmacia {
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
-
                     for (int i = 0; i < quantidade; i++) {
                         listaItens.add(remedio);
                         listLocal.add(remedio);
@@ -138,8 +136,8 @@ public class Farmacia {
             preco = read.nextFloat();
             read.nextLine();
             System.out.println("================== CADASTRO DE PERFUMARIA ===============");
+            itemPerf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade);
             for (int i = 0; i < qtd; i++) {
-                itemPerf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade);
                 listaItens.add(itemPerf);//lista de itens
                 listaLocal.add(itemPerf);//lista local
             }
@@ -419,7 +417,6 @@ public class Farmacia {
     }
 
     public static void menuExcluir() {
-
         int opcao = -1, saida = 0;
         String menu = null;
         Scanner read = new Scanner(System.in);
@@ -439,13 +436,22 @@ public class Farmacia {
                     menu = "n";
                     break;
                 case 1:
-                    menuExcluiMedicamentos();
+                    if (algumMedicamento() > 0) {
+                        menuExcluiMedicamentos();
+                    } else {
+                        System.out.println("Nao existem medicamentos cadastrados");
+                    }
                     break;
                 case 2:
+                    if (algumPerfumaria() > 0) {
+                        menuExcluiPerf();
+                    } else {
+                        System.out.println("Nao existem itens de perfumaria cadastrados");
+                    }
                     break;
             }
             if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
-                System.out.println("Pesquisar novo medicamento Generico?\n[S]im ou [N]ao");
+                System.out.println("\nDeseja excluir mais algum item?\n[S]im ou [N]ao -- 0 pra SAIR do MENU EXCLUIR");
                 menu = read.nextLine();
             }
         } while (menu.equalsIgnoreCase("s"));
@@ -457,10 +463,10 @@ public class Farmacia {
         Scanner read = new Scanner(System.in);
         do {
             System.out.println("============== EXCLUIR MEDICAMENTOS ================== ");
-            System.out.println("| 1. Pesquisa por Codigo                            |");
-            System.out.println("| 2. Pesquisa por Nome                              |");
+            System.out.println("| 1. Excluir por Codigo                            |");
+            System.out.println("| 2. Excluir por Nome                              |");
             System.out.println(" ---------------------------------------------------");
-            System.out.println("| 0. SAIR DO MENU GENERICOS                         |");
+            System.out.println("| 0. SAIR DO MENU EXCLUIR MEDICAMENTOS             |");
             System.out.println(" ---------------------------------------------------");
             System.out.println("============== EXCLUIR MEDICAMENTOS ================== ");
             opcao = read.nextInt();
@@ -471,15 +477,83 @@ public class Farmacia {
                     menu = "n";
                     break;
                 case 1:
-                    System.out.println("Digite o codigo do medicamento que deseja excluir");
-                    int codMed = read.nextInt();
-                    int qtdMedExc = excluiMedCod(codMed);
-                    if(qtdMedExc > 0){
-                        System.out.println(qtdMedExc+ " medicamentos foram excluidos");
+                    if (algumMedicamento() > 0) {
+                        System.out.println("Digite o codigo do medicamento que deseja excluir");
+                        int codMed = read.nextInt();
+                        read.nextLine();
+                        int qtdMedExc = excluiMedCod(codMed);
+                        if (qtdMedExc > 0) {
+                            System.out.println(qtdMedExc + " medicamentos foram excluidos");
+                        }
+                    } else {
+                        System.out.println("Não existem itens a serem excluidos");
                     }
+
+                    break;
+                case 2:
+                    if (algumMedicamento() > 0) {
+                        System.out.println("Digite o nome do medicamento que deseja excluir");
+                        String nomeMed = read.nextLine();
+                        int qtdMedNomeExc = excluiMedNome(nomeMed);
+                        if (qtdMedNomeExc > 0) {
+                            System.out.println(qtdMedNomeExc + " medicamentos foram excluidos");
+                        }
+                    } else {
+                        System.out.println("Não existem itens a serem excluidos");
+                    }
+
+
             }
             if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
-                System.out.println("Deseja excluir mais algum medicamento?\n[S]im ou [N]ao");
+                System.out.println("Deseja excluir mais algum medicamento?\n[S]im ou [N]ao -- 0 para SAIR do MENU EXCLUIR MEDICAMENTOS");
+                menu = read.nextLine();
+            }
+        } while (menu.equalsIgnoreCase("s"));
+    }
+
+    public static void menuExcluiPerf() {
+        int opcao = -1, saida = 0;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("============== EXCLUIR PERFUMARIA ================== ");
+            System.out.println("| 1. Excluir por Codigo                            |");
+            System.out.println("| 2. Excluir por Nome                              |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU EXCLUIR PERFUMARIA               |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("============== EXCLUIR PERFUMARIA ================== ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 0:
+                    saida = 1;
+                    menu = "n";
+                    break;
+                case 1:
+                    if (algumPerfumaria() > 0) {
+                        System.out.println("Digite o codigo do item de perfumaria que deseja excluir");
+                        int codPerf = read.nextInt();
+                        read.nextLine();
+                        int qtdExcPerf = excluiPerfCod(codPerf);
+                        if (qtdExcPerf > 0) {
+                            System.out.println(qtdExcPerf + " itens de perfumaria foram excluidos");
+                        }
+                    }
+                    break;
+                case 2:
+                    if (algumPerfumaria() > 0) {
+                        System.out.println("Digite o nome do item de perfumaria que deseja excluir");
+                        String nomePerf = read.nextLine();
+                        int qtdExcNome = excluiPerfNome(nomePerf);
+                        if (qtdExcNome > 0) {
+                            System.out.println(qtdExcNome + " itens de perfumaria excluidos");
+                        }
+                    }
+                    break;
+            }
+            if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
+                System.out.println("Deseja excluir mais algum item de perfumaria?\n[S]im ou [N]ao -- 0 Pra SAIR do MENU EXCLUIR PERFUMARIA");
                 menu = read.nextLine();
             }
         } while (menu.equalsIgnoreCase("s"));
@@ -487,38 +561,184 @@ public class Farmacia {
     //===============  MENUS =====================
 
     //=============== EXCLUSÕES ==================
-    public static int excluiMedCod(int cod) {
+    public static int excluiPerfCod(int cod) {
         int count = 0, countOcorre = 0, exclusoes = 0;
+        Perfumaria perf = null, amostra = null;
         Scanner read = new Scanner(System.in);
         for (int i = 0; i < listaItens.size(); i++) {
-            if (listaItens.get(i) instanceof Medicamentos) {
-                Medicamentos med = (Medicamentos) listaItens.get(i);
-                if (med.getCodMed() == cod) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                perf = (Perfumaria) listaItens.get(i);
+                if (perf.getCodPerf() == cod) {
                     countOcorre++;
+                    amostra = perf;
                 }
             }
         }
         do {
-            System.out.println("Existem" + countOcorre + " unidades do medicamento de codigo " + cod);
-            System.out.println("Digite a quantidade que deseja excluir");
+            System.out.println("Existem " + countOcorre + " unidades do medicamento  de codigo " + cod);
+            if (countOcorre > 0) {
+                amostra.imprimeInfo();
+                System.out.println("Digite a quantidade que deseja excluir [0 caso queira cancelar a exclusão]");
+                exclusoes = read.nextInt();
+                read.nextLine();
+            }
+        } while (exclusoes < 0 || exclusoes > countOcorre);
+        int k = 0, excluidos = 0;
+        for (int j = 0; j < listaItens.size(); j++) {
+            System.out.println(listaItens.size());
+            if (listaItens.get(j) instanceof Perfumaria) {
+                perf = (Perfumaria) listaItens.get(j);
+                if (excluidos < exclusoes && perf.getCodPerf() == cod) {
+                    listaItens.remove(j);
+                    excluidos++;
+                    k++;
+                }
+            }
+        }if(algumPerfumaria() == exclusoes && exclusoes == listaItens.size()){
+            excluidos =  listaItens.size();
+            listaItens.clear();
+        }
+        System.out.println("tamanho lista = "+listaItens.size());
+        if (exclusoes == 0) {
+            System.out.println("A exclusão do item de perfumaria foi cancelada!!");
+        }
+        return excluidos;
+    }
+
+    public static int excluiPerfNome(String nome) {
+        int count = 0, countOcorre = 0, exclusoes = 0;
+        Perfumaria perf = null, amostra = null;
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                perf = (Perfumaria) listaItens.get(i);
+                if (perf.getNome().equalsIgnoreCase(nome)) {
+                    countOcorre++;
+                    amostra = perf;
+                }
+            }
+        }
+        do {
+            System.out.println("Existem " + countOcorre + " unidades do medicamento " + perf.getNome());
+            if (countOcorre > 0) {
+                amostra.imprimeInfo();
+                System.out.println("Digite a quantidade que deseja excluir [0 caso queira cancelar a exclusão]");
+                exclusoes = read.nextInt();
+                read.nextLine();
+            }
+        } while (exclusoes < 0 || exclusoes > countOcorre);
+        int k = 0, excluidos = 0;
+        for (int j = 0; j < listaItens.size(); j++) {
+            if (listaItens.get(j) instanceof Perfumaria) {
+                perf = (Perfumaria) listaItens.get(j);
+                if (k < exclusoes && perf.getNome().equalsIgnoreCase(nome)) {
+                    listaItens.remove(j);
+                    excluidos++;
+                    k++;
+                }
+            }
+        }
+        if (excluidos == 0) {
+            System.out.println("A exclusão do medicamento foi cancelada!!");
+        }
+        return excluidos;
+    }
+
+    public static int excluiMedCod(int cod) {
+        int count = 0, countOcorre = 0, exclusoes = 0;
+        Medicamentos med = null, amostra = null;
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                med = (Medicamentos) listaItens.get(i);
+                if (med.getCodMed() == cod) {
+                    countOcorre++;
+                    amostra = med;
+                }
+            }
+        }
+        do {
+            System.out.println("Existem " + countOcorre + " unidades do medicamento " + med.getNome() + " de codigo " + cod);
+            amostra.imprimeInfo();
+            System.out.println("Digite a quantidade que deseja excluir [0 caso queira cancelar a exclusão]");
             exclusoes = read.nextInt();
             read.nextLine();
         } while (exclusoes < 0 || exclusoes > countOcorre);
         int k = 0, excluidos = 0;
         for (int j = 0; j < listaItens.size(); j++) {
             if (listaItens.get(j) instanceof Medicamentos) {
-                Medicamentos med = (Medicamentos) listaItens.get(j);
+                med = (Medicamentos) listaItens.get(j);
                 if (k < exclusoes && med.getCodMed() == cod) {
                     listaItens.remove(j);
                     excluidos++;
                 }
             }
         }
+        if (excluidos == 0) {
+            System.out.println("A exclusão do medicamento " + amostra.getNome() + " foi cancelada!!");
+        }
+        return excluidos;
+    }
+
+    public static int excluiMedNome(String nome) {
+        int count = 0, countOcorre = 0, exclusoes = 0;
+        Medicamentos med = null, amostra = null;
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                med = (Medicamentos) listaItens.get(i);
+                if (med.getNome().equalsIgnoreCase(nome)) {
+                    countOcorre++;
+                    amostra = med;
+                }
+            }
+        }
+        do {
+            System.out.println("Existem " + countOcorre + " unidades do medicamento " + med.getNome());
+            amostra.imprimeInfo();
+            System.out.println("Digite a quantidade que deseja excluir [0 caso queria cancelar a exclusão]");
+            exclusoes = read.nextInt();
+            read.nextLine();
+        } while (exclusoes < 0 || exclusoes > countOcorre);
+        int k = 0, excluidos = 0;
+        for (int j = 0; j < listaItens.size(); j++) {
+            if (listaItens.get(j) instanceof Medicamentos) {
+                med = (Medicamentos) listaItens.get(j);
+                if (k < exclusoes && med.getNome().equalsIgnoreCase(nome)) {
+                    listaItens.remove(j);
+                    excluidos++;
+                    k++;
+                }
+            }
+        }
+        if (excluidos == 0) {
+            System.out.println("A exclusão do medicamento " + amostra.getNome() + " foi cancelada!!");
+        }
         return excluidos;
     }
     //=============== EXCLUSÕES ==================
 
     //============== BUSCAS ======================
+    public static int algumMedicamento() {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int algumPerfumaria() {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public static int buscaItemCodigo(int codigo) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -721,7 +941,11 @@ public class Farmacia {
                     }
                     break;
                 case 5:
-
+                    if (!listaItens.isEmpty()) {
+                        menuExcluir();
+                    } else {
+                        System.out.println("Nao existem itens para serem excluidos");
+                    }
                     break;
                 default:
                     System.out.println("Digite número válido ou 0 pra sair...");
