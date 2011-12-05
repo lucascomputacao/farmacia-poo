@@ -1,19 +1,17 @@
 package farmacia;
 
 import java.util.*;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.sql.Statement;
 
 /**
  *
  * @author lucas
  */
 public class Farmacia {
+    //listas 
 
     private static ArrayList<Item> listaItens = new ArrayList<Item>();
+    private static ArrayList<Venda> listaVendas = new ArrayList<Venda>();
+    private static ArrayList<Caixa> listaCaixas = new ArrayList<Caixa>();
 
     //===================== CADASTROS ======================
     public static void cadastraMedicamento() {
@@ -150,8 +148,8 @@ public class Farmacia {
             System.out.println("================== CADASTRO DE PERFUMARIA ===============");
             itemPerf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade);
             //se > 0 foi encontrado objeto igual na lista de itens
-            if (buscaCadastro(itemPerf) > 0) {
-                itemPerf.setCodPerf(buscaCadastro(itemPerf));
+            if (buscaCadPerf(nome, lote, preco, validade, fragrancia, unidade) > 0) {
+                itemPerf.setCodPerf(buscaCadPerf(nome, lote, preco, validade, fragrancia, unidade));
             }
             for (int i = 0; i < qtd; i++) {
                 listaItens.add(itemPerf);//lista de itens
@@ -581,8 +579,9 @@ public class Farmacia {
         Scanner read = new Scanner(System.in);
         do {
             System.out.println("======================= VENDAS ===================== ");
-            System.out.println("| 1. Nova Venda                                    |");
-            System.out.println("| 2.                                               |");
+            System.out.println("| 1. Nova Venda por CODIGO                         |");
+            System.out.println("| 2. Nova Venda por NOME                           |");
+            System.out.println("| 3. Excluir Venda                                 |");
             System.out.println(" ---------------------------------------------------");
             System.out.println("| 0. SAIR DO MENU VENDAS                           |");
             System.out.println(" ---------------------------------------------------");
@@ -595,11 +594,18 @@ public class Farmacia {
                     menu = "n";
                     break;
                 case 1:
-                    if (algumPerfumaria() > 0) {
+                    if (!listaItens.isEmpty()) {
+                        System.out.println("Digite o codigo ou nome do item que deseja adicionar ao carrinho de compras");
+                        int codItem = read.nextInt();
+
+                    } else {
+                        System.out.println("Nao existem itens cadastrados para efetuar venda");
                     }
                     break;
                 case 2:
-                    if (algumPerfumaria() > 0) {
+                    if (!listaItens.isEmpty()) {
+                    } else {
+                        System.out.println("Nao existem itens cadastrados para efetuar venda");
                     }
                     break;
             }
@@ -948,6 +954,43 @@ public class Farmacia {
     }
 
     //testa se já existe um objeto igual cadastrado na lista de Itens
+    public static Item cadastroCod(int cod) {
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(i);
+                if (med.getCodMed() == cod) {
+                    return med;
+                }
+            }
+            if (listaItens.get(i) instanceof Perfumaria) {
+                Perfumaria perf = (Perfumaria) listaItens.get(i);
+                if (perf.getCodPerf() == cod) {
+                    return perf;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Item cadastroNome(String nome) {
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(i);
+                if (med.getNome().equalsIgnoreCase(nome)) {
+                    return med;
+                }
+            }
+            if (listaItens.get(i) instanceof Perfumaria) {
+                Perfumaria perf = (Perfumaria) listaItens.get(i);
+                if (perf.getNome().equalsIgnoreCase(nome)) {
+                    return perf;
+                }
+            }
+        }
+        return null;
+    }
+    //testa se já existe um objeto igual cadastrado na lista de Itens
+
     public static int buscaCadastro(Item item) {
         String nome = item.getNome();
         if (item instanceof Medicamentos) {
@@ -969,7 +1012,6 @@ public class Farmacia {
                             && med.getPrincipioAtivo().equalsIgnoreCase(priAtivo) && med.getPosologia().equalsIgnoreCase(posologia)
                             && med.isGenerico() == generico && med.getLote().equalsIgnoreCase(lote)
                             && med.getPreco() == preco) {
-                        Item.decreCod();//decrementa o atributo estatico cod
                         return med.getCodMed();//codigo do objeto existente na lista
                     }
                 }
@@ -993,6 +1035,61 @@ public class Farmacia {
                             && perf.getUnidade().equalsIgnoreCase(unidade)) {
                         return perf.getCodPerf();//codigo do objetoj existente na lista
                     }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static int buscaCadMedNor(String nome, String tarja, String data, String priAtivo, String posologia, boolean generico, String lote,
+            float preco, String validade) {
+
+        //MedicamentoNormal med = new MedicamentoNormal(tarja, data, principio, posologia, generico, codigo,lote, preco, validade, nome)
+        for (int i = 0; i < listaItens.size(); i++) {
+            //se o nome for igual, compara o restantes dos atributos
+            if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
+                MedicamentoNormal med = (MedicamentoNormal) listaItens.get(i);
+                //SE FOREM OBJETOS IGUAIS RETORNA O CÓDIGO DO OBJETO JÁ CADASTRADO NA LISTA
+                if (med.getTarja().equalsIgnoreCase(tarja) && med.getDataVencimento().equalsIgnoreCase(data)
+                        && med.getPrincipioAtivo().equalsIgnoreCase(priAtivo) && med.getPosologia().equalsIgnoreCase(posologia)
+                        && med.isGenerico() == generico && med.getLote().equalsIgnoreCase(lote)
+                        && med.getPreco() == preco) {
+                    //Item.decreCod();//decrementa o atributo estatico cod
+                    return med.getCodMed();//codigo do objeto existente na lista
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static int buscaCadMedCont(String nome, String tarja, String data, String priAtivo, String posologia,
+            boolean generico, String lote, float preco) {
+        //MedicamentoNormal med = new MedicamentoNormal(tarja, data, principio, posologia, generico, codigo,lote, preco, validade, nome)
+        for (int i = 0; i < listaItens.size(); i++) {
+            //se o nome for igual, compara o restantes dos atributos
+            if (listaItens.get(i).getNome().equalsIgnoreCase(nome)) {
+                MedicamentoNormal med = (MedicamentoNormal) listaItens.get(i);
+                //SE FOREM OBJETOS IGUAIS RETORNA O CÓDIGO DO OBJETO JÁ CADASTRADO NA LISTA
+                if (med.getTarja().equalsIgnoreCase(tarja) && med.getDataVencimento().equalsIgnoreCase(data)
+                        && med.getPrincipioAtivo().equalsIgnoreCase(priAtivo) && med.getPosologia().equalsIgnoreCase(posologia)
+                        && med.isGenerico() == generico && med.getLote().equalsIgnoreCase(lote)
+                        && med.getPreco() == preco) {
+                    //Item.decreCod();//decrementa o atributo estatico cod
+                    return med.getCodMed();//codigo do objeto existente na lista
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static int buscaCadPerf(String nome, String lote, float preco, String validade, String fragrancia, String unidade) {
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                Perfumaria perf = (Perfumaria) listaItens.get(i);
+                if (listaItens.get(i).getNome().equalsIgnoreCase(nome) && perf.getPreco() == preco
+                        && perf.getValidade().equalsIgnoreCase(validade) && perf.getFragrancia().equalsIgnoreCase(fragrancia)
+                        && perf.getUnidade().equalsIgnoreCase(unidade)) {
+                    return perf.getCodPerf();
                 }
             }
         }

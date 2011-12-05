@@ -36,10 +36,10 @@ public abstract class Item {
         this.nome = nome;
     }
 
-    public static void decreCod(){
-        Item.codigo--;
-        System.out.println("CODIGO = "+Item.codigo);
-    }   
+//    public static void decreCod(){
+//        Item.codigo--;
+//        System.out.println("CODIGO = "+Item.codigo);
+//    }   
     public static void setCodigo(int codigo) {
         Item.codigo = codigo;
     }
