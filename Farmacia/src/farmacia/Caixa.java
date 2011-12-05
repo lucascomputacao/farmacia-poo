@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Caixa {
     //ATIVIDADES DO CAIXA DA FARMACIA: ABERTURA, FECHAMENTO, VENDA, TROCO, CANCELAMENTO
+
     private static ArrayList<Venda> listVenda = new ArrayList<Venda>();
     private static int id = 0;
     private String operador;
@@ -22,15 +23,18 @@ public class Caixa {
         this.saldo = saldo;
         Caixa.id = id++;
     }
-    
-    public void exibirItens(){
+
+    public void exibirItens() {
+        float total = 0;
         for (int i = 0; i < listVenda.size(); i++) {
-           ArrayList<Item> lista = listVenda.get(i).getListaItensVenda();
-           lista.get(i).imprimeInfo();            
+            ArrayList<Item> lista = listVenda.get(i).getListaItensVenda();
+            lista.get(i).imprimeInfo();
+            total = listVenda.get(i).getVlrTotal();
         }
+        System.out.println("Total: " + total);
     }
-    
-    public void addListaVenda(Venda venda){
+
+    public void addListaVenda(Venda venda) {
         listVenda.add(venda);
     }
 
@@ -65,6 +69,4 @@ public class Caixa {
     public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
-    
-    
 }

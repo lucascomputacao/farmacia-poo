@@ -34,8 +34,9 @@ public class Venda {
 
     public void addListaItensVenda(Item item) {
         listaItensVenda.add(item);
-        System.out.println("Item: " + item.getCodigo() + "|" + item.getNome() + " adicionado a compra");
+        System.out.println("Item: codigo =  " + item.getCodigo() + "| Nome = " + item.getNome() + " adicionado a compra");
         calculaValorTotal();
+        System.out.println("Totalizando "+getVlrTotal());
         setQtd(listaItensVenda.size());
     }
 

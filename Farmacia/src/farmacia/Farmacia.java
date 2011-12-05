@@ -217,8 +217,7 @@ public class Farmacia {
             System.out.println("Conectado com o banco de dados \\o/");
             String sql = "INSERT INTO TB_MEDICAMENTOS (codigo, nome, lote,preco, validade, tarja, priAtivo, posologia, generico) VALUES(" + codigo + "," + nome + "," + preco + "," + validade + "," + tarja + "," + principioAtivo + "," + posologia + "," + generico + ")";
             //conection.atualizar(sql);
-        }
-        
+        }        
     }
     
     public static void abrirCaixa() {
@@ -236,10 +235,15 @@ public class Farmacia {
             read.nextLine();
             Caixa caixa = new Caixa(nome, saldo);
             caixa.addListaVenda(venda);
+            System.out.println("\nItens do carrinho:\n");
+            caixa.exibirItens();
+            
         } else {
             Caixa caixa = listaCaixas.get(0);
             caixa.addListaVenda(venda);
-        }        
+            System.out.println("\nItens do carrinho:\n");
+            caixa.exibirItens();
+        }
     }
     //===============  MENUS =====================
 
@@ -604,7 +608,7 @@ public class Farmacia {
             System.out.println("======================= VENDAS ===================== ");
             System.out.println("| 1. Nova Venda por CODIGO                         |");
             System.out.println("| 2. Nova Venda por NOME                           |");
-            System.out.println("| 3. Excluir Venda                                 |");
+            //System.out.println("| 3. Excluir Venda                                 |");
             System.out.println(" ---------------------------------------------------");
             System.out.println("| 0. SAIR DO MENU VENDAS                           |");
             System.out.println(" ---------------------------------------------------");
@@ -638,7 +642,7 @@ public class Farmacia {
                             for (int i = 0; i < qtdCarrinho; i++) {
                                 venda.addListaItensVenda(item);
                             }
-
+                            efetuaPagamento(venda);
                         } else {
                             System.out.println("Nao existe item com o codigo " + codItem);
                         }
@@ -648,23 +652,45 @@ public class Farmacia {
                     break;
                 case 2:
                     if (!listaItens.isEmpty()) {
+                        System.out.println("Digite o nome do item que deseja adicionar ao carrinho de compras");
+                        String nomeItem = read.nextLine();
+                        if (cadastroNome(nomeItem) != null) {
+                            Item item = cadastroNome(nomeItem);
+                            int qtdItem = buscaItemNome(nomeItem);
+                            do {
+                                System.out.println("Existem " + qtdItem + " itens disponiveis no estoque");
+                                System.out.println("Digite a quantidade de " + item.getNome() + " deseja adicionar ao carrinho de compras ");
+                                qtdCarrinho = read.nextInt();
+                                read.nextLine();
+                                if (qtdCarrinho > qtdItem) {
+                                    System.out.println("Digite quantidade entre 1 e " + qtdItem + "!!");
+                                }
+                            } while (qtdCarrinho < 0 || qtdCarrinho > qtdItem);
+                            //criando o objeto venda
+                            Venda venda = new Venda();
+                            //passando os itens para a venda
+                            for (int i = 0; i < qtdCarrinho; i++) {
+                                venda.addListaItensVenda(item);
+                            }
+                            efetuaPagamento(venda);
+                        } else {
+                            System.out.println("Nao existe item com o nome " + nomeItem);
+                        }
                     } else {
                         System.out.println("Nao existem itens cadastrados para efetuar venda");
                     }
                     break;
             }
             if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
-                System.out.println("Deseja eefetuar mais alguma venda?\n[S]im ou [N]ao -- 0 Pra SAIR do MENU VENDAS");
+                System.out.println("Deseja efetuar mais alguma venda?\n[S]im ou [N]ao -- 0 Pra SAIR do MENU VENDA");
                 menu = read.nextLine();
             }
         } while (menu.equalsIgnoreCase("s"));
-        //chamar efetuar pagamento passando o objeto venda como parametro
-        
-        
     }
-    //===============  MENUS =====================
 
-    //=============== EXCLUSÕES ==================
+    //chamar efetuar pagamento passando o objeto venda como parametro
+    //===============  MENUS =====================
+//=============== EXCLUSÕES ==================
     public static int excluiPerfCod(int cod) {
         int count = 0, countOcorre = 0, exclusoes = 0;
         Perfumaria perf = null, amostra = null;
