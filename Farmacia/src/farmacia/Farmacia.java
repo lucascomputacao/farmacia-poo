@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package farmacia;
 
 import java.util.*;
@@ -558,6 +554,44 @@ public class Farmacia {
             }
         } while (menu.equalsIgnoreCase("s"));
     }
+
+    public static void menuVenda() {
+        int opcao = -1, saida = 0;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("======================= VENDAS ===================== ");
+            System.out.println("| 1. Nova Venda                                    |");
+            System.out.println("| 2.                                               |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU VENDAS                           |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("======================= VENDAS ===================== ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 0:
+                    saida = 1;
+                    menu = "n";
+                    break;
+                case 1:
+                    if (algumPerfumaria() > 0) {
+                    }
+                    break;
+                case 2:
+                    if (algumPerfumaria() > 0) {
+                       
+                    }
+                    break;
+            }
+            if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
+                System.out.println("Deseja eefetuar mais alguma venda?\n[S]im ou [N]ao -- 0 Pra SAIR do MENU VENDAS");
+                menu = read.nextLine();
+            }
+        } while (menu.equalsIgnoreCase("s"));
+
+
+    }
     //===============  MENUS =====================
 
     //=============== EXCLUSÕES ==================
@@ -594,11 +628,12 @@ public class Farmacia {
                     k++;
                 }
             }
-        }if(algumPerfumaria() == exclusoes && exclusoes == listaItens.size()){
-            excluidos =  listaItens.size();
+        }
+        if (algumPerfumaria() == exclusoes && exclusoes == listaItens.size()) {
+            excluidos = listaItens.size();
             listaItens.clear();
         }
-        System.out.println("tamanho lista = "+listaItens.size());
+        System.out.println("tamanho lista = " + listaItens.size());
         if (exclusoes == 0) {
             System.out.println("A exclusão do item de perfumaria foi cancelada!!");
         }
@@ -912,6 +947,7 @@ public class Farmacia {
             System.out.println("| 3. Listar Itens cadastrados                       |");
             System.out.println("| 4. Pesquisar                                      |");
             System.out.println("| 5. Excluir                                        |");
+            System.out.println("| 6. Efetuar VENDA                                  |");
             System.out.println(" ---------------------------------------------------");
             System.out.println("| 0. SAIR DO SISTEMA                                |");
             System.out.println(" ---------------------------------------------------");
@@ -947,8 +983,14 @@ public class Farmacia {
                         System.out.println("Nao existem itens para serem excluidos");
                     }
                     break;
+                case 6:
+                    if (!listaItens.isEmpty()) {
+                        menuVenda();
+                    } else {
+                        System.out.println("Nao existem itens para serem vendidos");
+                    }
                 default:
-                    System.out.println("Digite número válido ou 0 pra sair...");
+                    System.out.println("Digite número válido ou 0 pra SAIR...");
             }
         } while (menu != 0);
     }
