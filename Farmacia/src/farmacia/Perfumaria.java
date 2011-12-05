@@ -26,7 +26,7 @@ public class Perfumaria extends Item {
         System.out.println("Codigo: " + getCodPerf() + "\n"
                 + "Nome: " + getNome() + "\n"
                 + "Fragrancia: " + getFragrancia()+"\n"
-                + "Fragrancia: " + getUnidade()+"\n"
+                + "Unidade de venda: " + getUnidade()+"\n"
                 + "Lote: " + getLote() + "\n"
                 + "Validade: " + getValidade()+ "\n"
                 + "Preco: " + getPreco());

@@ -19,7 +19,7 @@ public class Farmacia {
 
     private static ArrayList<Item> listaItens = new ArrayList<Item>();
 
-    //cadastrar medicamento
+    //===================== CADASTROS ======================
     public static void cadastraMedicamento() {
 //    int codigo, int lote, float preco, String nome, String tarja, String dataVencimento, String principioAtivo, boolean generico
         Scanner read = new Scanner(System.in);
@@ -66,72 +66,64 @@ public class Farmacia {
                 if (posologia.equalsIgnoreCase("")) {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
-                    System.out.println("Novo medicamento cadastrado:");
                     for (int i = 0; i < quantidade; i++) {
                         listaItens.add(remedio);
                         listLocal.add(remedio);
-                        remedio.imprimeInfo();
+                        //remedio.imprimeInfo();
                     }
+                    System.out.println(quantidade + " medicamento(s) cadastrado(s) com sucesso!");
+                    remedio.imprimeInfo();
                     //insereMedDB(remedio);
-
                 } else {
                     Medicamentos remedio = new MedicamentoControlado(
                             crm, tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
-                    System.out.println("Novo medicamento cadastrado:");
+
                     for (int i = 0; i < quantidade; i++) {
                         listaItens.add(remedio);
                         listLocal.add(remedio);
                         remedio.imprimeInfo();
                     }//insereMedDB(remedio);
+                    System.out.println(quantidade + " medicamento(s) cadastrado(s) com sucesso!");
                 }
             } else {
                 if (posologia.equalsIgnoreCase("")) {
                     Medicamentos remedio = new MedicamentoNormal(
                             tarja, dataVencimento, principioAtivo, generico, codIni, lote, preco, lote, nome);
-                    System.out.println("Novo medicamento cadastrado:");
                     for (int i = 0; i < quantidade; i++) {
                         listaItens.add(remedio);
                         listLocal.add(remedio);
-                        remedio.imprimeInfo();
                     }
+                    System.out.println(quantidade + " medicamento(s) cadastrado(s) com sucesso!");
+                    remedio.imprimeInfo();
                 } else {
                     Medicamentos remedio = new MedicamentoNormal(
                             tarja, dataVencimento, principioAtivo, posologia, generico, codIni, lote, preco, lote, nome);
-                    System.out.println("Novo medicamento cadastrado:");
                     for (int i = 0; i < quantidade; i++) {
                         listaItens.add(remedio);
                         listLocal.add(remedio);
-                        remedio.imprimeInfo();
                     }
+                    System.out.println(quantidade + " medicamento(s) cadastrado(s) com sucesso!");
+                    remedio.imprimeInfo();
                 }
             }
-            System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
+            System.out.println("\nDeseja cadastrar outro item? [S]im ou [N]ão");
             opcao = read.nextLine();
 
         } while (opcao.equalsIgnoreCase("s"));
-        //imprime os itens cadastrados
-        System.out.println("\nMedicamentos cadastrados:\n");
-        for (int i = 0, itensPag = 1; i < listLocal.size(); i++, itensPag++) {
-            listLocal.get(i).imprimeInfo();
-            if (i < listLocal.size() && itensPag > 3) {
-                System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
-                read.nextLine();
-                itensPag = 0;
-            }
-        }
-        System.out.println("\nPRESSIONE ENTER PARA RETORNAR AO MENU");
-        read.nextLine();
     }
 
     public static void cadastraPerfumaria() {
         String opcao = "", nome, validade, fragrancia, unidade, lote;
         float preco;
         ArrayList<Perfumaria> listaLocal = new ArrayList<Perfumaria>();
-
+        Perfumaria itemPerf = null;
         Scanner read = new Scanner(System.in);
 
         do {
             System.out.println("================== CADASTRO DE PERFUMARIA ===============");
+            System.out.println("| Digite a quantidade do item que deseja cadastrar      |");
+            int qtd = read.nextInt();
+            read.nextLine();
             System.out.println("| Digite o nome :                                       |");
             nome = read.nextLine();
             System.out.println("| Digite a fragrancia:                                  |");
@@ -146,30 +138,20 @@ public class Farmacia {
             preco = read.nextFloat();
             read.nextLine();
             System.out.println("================== CADASTRO DE PERFUMARIA ===============");
-            Perfumaria itemPerf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade);
-            System.out.println("|  Novo Item cadastrado:                                 |");
+            for (int i = 0; i < qtd; i++) {
+                itemPerf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade);
+                listaItens.add(itemPerf);//lista de itens
+                listaLocal.add(itemPerf);//lista local
+            }
+            System.out.println(qtd + " novos Itens cadastrados! ");
             itemPerf.imprimeInfo();
-            listaItens.add(itemPerf);//lista de itens
-            listaLocal.add(itemPerf);//lista local
-            System.out.println("Deseja cadastrar outro item? [S]im ou [N]ão");
+            System.out.println("\nDeseja cadastrar outro item? [S]im ou [N]ão");
             opcao = read.nextLine();
         } while (opcao.equalsIgnoreCase("s"));
-        //imprime os itens cadastrados
-        System.out.println("\nItens de Perfumaria cadastrados:\n");
-
-        for (int i = 0, itensPag = 1; i < listaLocal.size(); i++, itensPag++) {
-            listaLocal.get(i).imprimeInfo();
-            if (i < listaLocal.size() && itensPag > 3) {
-                System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
-                read.nextLine();
-                itensPag = 0;
-            }
-        }
-        System.out.println("\nNAO EXISTEM MAIS ITENS A SEREM LISTADOS\nPRESSIONE ENTER PARA RETORNAR AO MENU");
-        read.nextLine();
     }
+    //===================== CADASTROS ======================
 
-    //MÉTODO POLIMÓRFICO
+    //MÉTODO POLIMÓRFICO PARA IMPRESSAO DE INFORMACOES DOS ITENS
     public static void imprimeListaItens() {
         Scanner read = new Scanner(System.in);
 
@@ -183,7 +165,7 @@ public class Farmacia {
             }
             listaItens.get(i).imprimeInfo();
             System.out.println("\n");
-            if (itensPag > 3 && listaItens.size() > 3) {
+            if (itensPag > 3 && listaItens.size() - 1 > 3) {
                 System.out.println("\nPRESSIONE ENTER PARA VISUALIZAR ITENS RESTANTES");
                 read.nextLine();
                 itensPag = 0;
@@ -226,7 +208,8 @@ public class Farmacia {
 
     }
 
-    public static void pesquisarItem() {
+    //===============  MENUS =====================
+    public static void menuPesquisarItem() {
         int opcao = -1, codigo;
         String nome = null, menu = null;
         Scanner read = new Scanner(System.in);
@@ -256,7 +239,7 @@ public class Farmacia {
                     menuBuscaMedicamentos();
                     break;
                 case 4:
-                    menuBuscaPerfumaria();
+                    menuPesquisarPerfumaria();
                     break;
             }
             System.out.println("\nNova Busca por produtos?\n[S]im ou [N]ao?");
@@ -264,8 +247,8 @@ public class Farmacia {
         } while (menu.equalsIgnoreCase("s"));
     }
 
-    public static void menuBuscaPerfumaria() {
-        int opcao = -1;
+    public static void menuPesquisarPerfumaria() {
+        int opcao = -1, saida = 0;
         String menu = null;
         Scanner read = new Scanner(System.in);
         do {
@@ -273,28 +256,58 @@ public class Farmacia {
             System.out.println("| 1. Pesquisa por Codigo                          |");
             System.out.println("| 2. Pesquisa por Nome                            |");
             System.out.println("| 3. Pesquisa por Fragrancia                      |");
+            System.out.println(" -------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU PERFUMARIA                      |");
+            System.out.println(" -------------------------------------------------");
             System.out.println("============= PESQUISAR PERFUMARIA ================ ");
             opcao = read.nextInt();
             read.nextLine();
             switch (opcao) {
+                case 0://condicao de saida do menu
+                    saida = 1;
+                    menu = "n";
+                    break;
                 case 1:
-                    
+                    System.out.println("Digite o codigo do item de perfumaria que deseja pesquisar");
+                    int codPerf = read.nextInt();
+                    read.nextLine();
+                    int qtdPerCod = buscaPerfumariaCod(codPerf);
+                    if (qtdPerCod > 0) {
+                        System.out.println(qtdPerCod + "itens encontrados");
+                    } else {
+                        System.out.println("Nao existem itens de perfumaria como codigo " + codPerf);
+                    }
                     break;
                 case 2:
-                    
+                    System.out.println("Digite o nome do item de perfumaria que deseja pesquisar");
+                    String nomePerf = read.nextLine();
+                    int qtdPerfNome = buscaPerfumariaNome(nomePerf);
+                    if (qtdPerfNome > 0) {
+                        System.out.println(qtdPerfNome + " itens " + nomePerf + " encontrados");
+                    } else {
+                        System.out.println("Nao foram encontrados itens com o nome " + nomePerf);
+                    }
                     break;
                 case 3:
-                    
+                    System.out.println("Digite a fragrancia que deseja pesquisar");
+                    String fragrancia = read.nextLine();
+                    int qtdFrag = buscaPerfumariaFrag(fragrancia);
+                    if (qtdFrag > 0) {
+                        System.out.println(qtdFrag + " iten encontrados com a fragrancia " + fragrancia);
+                    } else {
+                        System.out.println("Nao foram encontrados itens com a fragrancia " + fragrancia);
+                    }
                     break;
-                    
+            }//end of switch
+            if (saida == 0) {
+                System.out.println("\nPesquisar novo item de perfumaria?\n[S]im ou [N]ao");
+                menu = read.nextLine();
             }
-            System.out.println("Pesquisar novo item de perfumaria?\n[S]im ou [N]ao");
-            menu = read.nextLine();
         } while (menu.equalsIgnoreCase("s"));
     }
 
     public static void menuBuscaMedicamentos() {
-        int opcao = -1;
+        int opcao = -1, saida = 0;
         String menu = null;
         Scanner read = new Scanner(System.in);
         do {
@@ -302,10 +315,17 @@ public class Farmacia {
             System.out.println("| 1. Pesquisa por Nome                              |");
             System.out.println("| 2. Pesquisa por Principio Ativo                   |");
             System.out.println("| 3. Pesquisa por Genericos                         |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU MEDICAMENTOS                      |");
+            System.out.println(" ---------------------------------------------------");
             System.out.println("============= PESQUISAR MEDICAMENTOS ================ ");
             opcao = read.nextInt();
             read.nextLine();
             switch (opcao) {
+                case 0:
+                    saida = 1;
+                    menu = "n";
+                    break;
                 case 1:
                     System.out.println("Digite o nome do medicamento");
                     String nome = read.nextLine();
@@ -321,7 +341,7 @@ public class Farmacia {
                     String priAtivo = read.nextLine();
                     int qtdPri = buscaPriAtivo(priAtivo);
                     if (qtdPri > 0) {
-                        System.out.println(qtdPri + " ocorrencias do " + priAtivo);
+                        System.out.println(qtdPri + " ocorrencias do principio ativo " + priAtivo);
                     } else {
                         System.out.println("Busca por " + priAtivo + " nao obteve resultados");
                     }
@@ -330,13 +350,16 @@ public class Farmacia {
                     menuGenericos();
                     break;
             }
-            System.out.println("Pesquisar novo medicamento?\n[S]im ou [N]ao");
-            menu = read.nextLine();
+            if (saida == 0) {
+                System.out.println("Pesquisar novo medicamento?\n[S]im ou [N]ao");
+                menu = read.nextLine();
+            }
+
         } while (menu.equalsIgnoreCase("s"));
     }
 
     public static void menuGenericos() {
-        int opcao = -1;
+        int opcao = -1, saida = 0;
         String menu = null;
         Scanner read = new Scanner(System.in);
         do {
@@ -344,10 +367,17 @@ public class Farmacia {
             System.out.println("| 1. Pesquisa por Codigo                            |");
             System.out.println("| 2. Pesquisa por Nome                              |");
             System.out.println("| 3. Pesquisa por Principio Ativo                   |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU GENERICOS                         |");
+            System.out.println(" ---------------------------------------------------");
             System.out.println("============== PESQUISAR GENERICOS ================== ");
             opcao = read.nextInt();
             read.nextLine();
             switch (opcao) {
+                case 0:
+                    saida = 1;
+                    menu = "n";
+                    break;
                 case 1:
                     System.out.println("Digite o codigo do generico que deseja pesquisar");
                     int codGen = read.nextInt();
@@ -381,13 +411,116 @@ public class Farmacia {
                     break;
 
             }
-            System.out.println("Pesquisar novo medicamento Generico?\n[S]im ou [N]ao");
-            menu = read.nextLine();
+            if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
+                System.out.println("Pesquisar novo medicamento Generico?\n[S]im ou [N]ao");
+                menu = read.nextLine();
+            }
         } while (menu.equalsIgnoreCase("s"));
-
     }
 
-    public static void buscaItemCodigo(int codigo) {
+    public static void menuExcluir() {
+
+        int opcao = -1, saida = 0;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("===================== EXCLUIR ======================= ");
+            System.out.println("| 1. Excluir Medicamento                            |");
+            System.out.println("| 2. Exclui item de Perfumaria                      |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU GENERICOS                         |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("===================== EXCLUIR ======================= ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 0:
+                    saida = 1;
+                    menu = "n";
+                    break;
+                case 1:
+                    menuExcluiMedicamentos();
+                    break;
+                case 2:
+                    break;
+            }
+            if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
+                System.out.println("Pesquisar novo medicamento Generico?\n[S]im ou [N]ao");
+                menu = read.nextLine();
+            }
+        } while (menu.equalsIgnoreCase("s"));
+    }
+
+    public static void menuExcluiMedicamentos() {
+        int opcao = -1, saida = 0;
+        String menu = null;
+        Scanner read = new Scanner(System.in);
+        do {
+            System.out.println("============== EXCLUIR MEDICAMENTOS ================== ");
+            System.out.println("| 1. Pesquisa por Codigo                            |");
+            System.out.println("| 2. Pesquisa por Nome                              |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("| 0. SAIR DO MENU GENERICOS                         |");
+            System.out.println(" ---------------------------------------------------");
+            System.out.println("============== EXCLUIR MEDICAMENTOS ================== ");
+            opcao = read.nextInt();
+            read.nextLine();
+            switch (opcao) {
+                case 0:
+                    saida = 1;
+                    menu = "n";
+                    break;
+                case 1:
+                    System.out.println("Digite o codigo do medicamento que deseja excluir");
+                    int codMed = read.nextInt();
+                    int qtdMedExc = excluiMedCod(codMed);
+                    if(qtdMedExc > 0){
+                        System.out.println(qtdMedExc+ " medicamentos foram excluidos");
+                    }
+            }
+            if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
+                System.out.println("Deseja excluir mais algum medicamento?\n[S]im ou [N]ao");
+                menu = read.nextLine();
+            }
+        } while (menu.equalsIgnoreCase("s"));
+    }
+    //===============  MENUS =====================
+
+    //=============== EXCLUSÕES ==================
+    public static int excluiMedCod(int cod) {
+        int count = 0, countOcorre = 0, exclusoes = 0;
+        Scanner read = new Scanner(System.in);
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(i);
+                if (med.getCodMed() == cod) {
+                    countOcorre++;
+                }
+            }
+        }
+        do {
+            System.out.println("Existem" + countOcorre + " unidades do medicamento de codigo " + cod);
+            System.out.println("Digite a quantidade que deseja excluir");
+            exclusoes = read.nextInt();
+            read.nextLine();
+        } while (exclusoes < 0 || exclusoes > countOcorre);
+        int k = 0, excluidos = 0;
+        for (int j = 0; j < listaItens.size(); j++) {
+            if (listaItens.get(j) instanceof Medicamentos) {
+                Medicamentos med = (Medicamentos) listaItens.get(j);
+                if (k < exclusoes && med.getCodMed() == cod) {
+                    listaItens.remove(j);
+                    excluidos++;
+                }
+            }
+        }
+        return excluidos;
+    }
+    //=============== EXCLUSÕES ==================
+
+    //============== BUSCAS ======================
+    public static int buscaItemCodigo(int codigo) {
+        int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i).getCodigo() == codigo) {
                 if (listaItens.get(i) instanceof Medicamentos) {
@@ -398,11 +531,13 @@ public class Farmacia {
                 }
                 listaItens.get(i).imprimeInfo();
                 System.out.println();
+                count++;
             }
             if (i == listaItens.size()) {
                 System.out.println("Item de codigo " + codigo + " nao encontrado");
             }
         }
+        return count;
     }
 
     public static int buscaItemNome(String nome) {
@@ -446,6 +581,7 @@ public class Farmacia {
         return count;
     }
 
+    //USO DE CAST
     public static int buscaGenCod(int cod) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -495,6 +631,49 @@ public class Farmacia {
         return count;
     }
 
+    public static int buscaPerfumariaCod(int cod) {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                Perfumaria perf = (Perfumaria) listaItens.get(i);
+                if (perf.getCodPerf() == cod) {
+                    perf.imprimeInfo();
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static int buscaPerfumariaNome(String nome) {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                Perfumaria perf = (Perfumaria) listaItens.get(i);
+                if (perf.getNome().equalsIgnoreCase(nome)) {
+                    perf.imprimeInfo();
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static int buscaPerfumariaFrag(String fragrancia) {
+        int count = 0;
+        for (int i = 0; i < listaItens.size(); i++) {
+            if (listaItens.get(i) instanceof Perfumaria) {
+                Perfumaria perf = (Perfumaria) listaItens.get(i);
+                if (perf.getFragrancia().equalsIgnoreCase(fragrancia)) {
+                    perf.imprimeInfo();
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    //============== BUSCAS ======================
     /**
      * @param args the command line arguments
      */
@@ -505,13 +684,17 @@ public class Farmacia {
         //MENU
         do {
             System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
+            System.out.println(" ---------------------------------------------------");
             System.out.println("| Escolha uma das operações abaixo ou 0 para sair...|");
             System.out.println(" ---------------------------------------------------");
             System.out.println("| 1. Cadastrar Medicamento                          |");
             System.out.println("| 2. Cadastrar Perfumaria                           |");
             System.out.println("| 3. Listar Itens cadastrados                       |");
-            System.out.println("| 4. Pesquisar Item                                 |");
+            System.out.println("| 4. Pesquisar                                      |");
+            System.out.println("| 5. Excluir                                        |");
+            System.out.println(" ---------------------------------------------------");
             System.out.println("| 0. SAIR DO SISTEMA                                |");
+            System.out.println(" ---------------------------------------------------");
             System.out.println("============= FARMACIA DO POLVO PAUL ================ ");
             menu = read.nextInt();
             switch (menu) {
@@ -529,13 +712,16 @@ public class Farmacia {
                     break;
                 case 4:
                     if (!listaItens.isEmpty()) {
-                        pesquisarItem();
+                        menuPesquisarItem();
                     } else {
                         System.out.println("Nao existem itens cadastrados\nCadastre um item antes de pesquisar");
                         System.out.println("Tecle ENTER para voltar ao menu");
                         read.nextLine();
                         read.nextLine();
                     }
+                    break;
+                case 5:
+
                     break;
                 default:
                     System.out.println("Digite número válido ou 0 pra sair...");
