@@ -1,6 +1,7 @@
 package farmacia;
 
 import com.sun.org.apache.regexp.internal.recompile;
+import com.sun.xml.internal.ws.message.saaj.SAAJHeader;
 import java.util.*;
 
 /**
@@ -237,12 +238,25 @@ public class Farmacia {
             caixa.addListaVenda(venda);
             System.out.println("\nItens do carrinho:\n");
             caixa.exibirItens();
+            System.out.println();
+            float aPagar = venda.getVlrTotal();
+            System.out.println("\nDigite a quantia recebida para pagar: ");
+            float dinheiro = read.nextFloat();
+            caixa.cobranca(dinheiro, aPagar);
+            caixa.baixaEstoque(venda);
             
         } else {
             Caixa caixa = listaCaixas.get(0);
             caixa.addListaVenda(venda);
             System.out.println("\nItens do carrinho:\n");
-            caixa.exibirItens();
+            caixa.exibirItens();System.out.println();
+            float aPagar = venda.getVlrTotal();
+            System.out.println("Digite a quantia recebida: ");
+            float dinheiro = read.nextFloat();
+            caixa.cobranca(dinheiro, aPagar);
+            float novoSaldo = caixa.getSaldo()+dinheiro - aPagar;
+            caixa.setSaldo(aPagar);
+            caixa.baixaEstoque(venda);
         }
     }
     //===============  MENUS =====================
