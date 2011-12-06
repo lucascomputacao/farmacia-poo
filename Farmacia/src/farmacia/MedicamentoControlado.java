@@ -20,5 +20,14 @@ public class MedicamentoControlado extends Medicamentos {
     public MedicamentoControlado(int crm, String tarja, String dataVencimento, String principioAtivo, boolean generico, int codMed, String lote, float preco, String validade, String nome) {
         super(tarja, dataVencimento, principioAtivo, generico, codMed, lote, preco, validade, nome);
         this.crm = crm;
-    }       
+    }
+
+    public int getCrm() {
+        return crm;
+    }
+
+    public void setCrm(int crm) {
+        this.crm = crm;
+    }
+    
 }

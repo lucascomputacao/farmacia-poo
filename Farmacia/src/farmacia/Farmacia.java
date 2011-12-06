@@ -118,17 +118,17 @@ public class Farmacia {
             }
             System.out.println("\nDeseja cadastrar outro item? [S]im ou [N]ão");
             opcao = read.nextLine();
-            
+
         } while (opcao.equalsIgnoreCase("s"));
     }
-    
+
     public static void cadastraPerfumaria() {
         String opcao = "", nome, validade, fragrancia, unidade, lote;
         float preco;
         ArrayList<Perfumaria> listaLocal = new ArrayList<Perfumaria>();
         Perfumaria itemPerf = null;
         Scanner read = new Scanner(System.in);
-        
+
         do {
             System.out.println("================== CADASTRO DE PERFUMARIA ===============");
             System.out.println("| Digite a quantidade do item que deseja cadastrar      |");
@@ -168,7 +168,7 @@ public class Farmacia {
     //MÉTODO POLIMÓRFICO PARA IMPRESSAO DE INFORMACOES DOS ITENS
     public static void imprimeListaItens() {
         Scanner read = new Scanner(System.in);
-        
+
         System.out.println("Lista de Itens cadastrados:");
         for (int i = 0, itensPag = 1, maxItens = 0; i < listaItens.size(); i++, itensPag++, maxItens++) {
             if (listaItens.get(i) instanceof Medicamentos) {
@@ -198,7 +198,7 @@ public class Farmacia {
         String lote, nome, principioAtivo, posologia, generico, tarja, validade;
         float preco;
         int codigo;
-        
+
         codigo = remedio.getCodMed();
         lote = remedio.getLote();
         nome = remedio.getNome();
@@ -218,10 +218,20 @@ public class Farmacia {
             System.out.println("Conectado com o banco de dados \\o/");
             String sql = "INSERT INTO TB_MEDICAMENTOS (codigo, nome, lote,preco, validade, tarja, priAtivo, posologia, generico) VALUES(" + codigo + "," + nome + "," + preco + "," + validade + "," + tarja + "," + principioAtivo + "," + posologia + "," + generico + ")";
             //conection.atualizar(sql);
-        }        
+        }
     }
-    
-    public static void abrirCaixa() {
+
+    public static Caixa abrirCaixa() {
+        Scanner read = new Scanner(System.in);
+        System.out.println("Digite o nome do operador do caixa");
+        String nome = read.nextLine();
+        System.out.println("Digite o saldo de abertura caixa");
+        float saldo = read.nextFloat();
+        read.nextLine();
+        Caixa caixa = new Caixa(nome, saldo);
+        System.out.println("Caixa aberto");
+        listaCaixas.add(caixa);
+        return caixa;
     }
     //metodo passa um objeto venda para um objeto caixa
 
@@ -229,34 +239,38 @@ public class Farmacia {
         Scanner read = new Scanner(System.in);
         //se id do caixa for 0 nao existem caixas abertos
         if (listaCaixas.isEmpty()) {
-            System.out.println("Digite o nome do operador do caixa 1");
-            String nome = read.nextLine();
-            System.out.println("Digite o saldo de abertura caixa");
-            float saldo = read.nextFloat();
-            read.nextLine();
-            Caixa caixa = new Caixa(nome, saldo);
+            Caixa caixa = abrirCaixa();
             caixa.addListaVenda(venda);
             System.out.println("\nItens do carrinho:\n");
-            caixa.exibirItens();
+            caixa.exibirItens(venda);
             System.out.println();
             float aPagar = venda.getVlrTotal();
             System.out.println("\nDigite a quantia recebida para pagar: ");
             float dinheiro = read.nextFloat();
-            caixa.cobranca(dinheiro, aPagar);
-            caixa.baixaEstoque(venda);
-            
+            float ret = caixa.cobranca(dinheiro, aPagar);
+            if (ret > 0) {
+                float novoSaldo = caixa.getSaldo() + dinheiro - aPagar;
+                caixa.setSaldo(novoSaldo);
+                caixa.baixaEstoque(venda);
+            }
+
         } else {
             Caixa caixa = listaCaixas.get(0);
             caixa.addListaVenda(venda);
             System.out.println("\nItens do carrinho:\n");
-            caixa.exibirItens();System.out.println();
+            caixa.exibirItens(venda);
+            System.out.println();
             float aPagar = venda.getVlrTotal();
             System.out.println("Digite a quantia recebida: ");
             float dinheiro = read.nextFloat();
-            caixa.cobranca(dinheiro, aPagar);
-            float novoSaldo = caixa.getSaldo()+dinheiro - aPagar;
-            caixa.setSaldo(aPagar);
-            caixa.baixaEstoque(venda);
+            float ret = caixa.cobranca(dinheiro, aPagar);
+            if (ret > 0) {
+                float novoSaldo = caixa.getSaldo() + dinheiro - aPagar;
+                caixa.setSaldo(novoSaldo);
+                caixa.baixaEstoque(venda);
+            }
+
+
         }
     }
     //===============  MENUS =====================
@@ -265,7 +279,7 @@ public class Farmacia {
         int opcao = -1, codigo;
         String nome = null, menu = null;
         Scanner read = new Scanner(System.in);
-        
+
         do {
             System.out.println("============= PESQUISAR PRODUTOS ================ ");
             System.out.println("| 1. Pesquisa por Codigo                        |");
@@ -298,7 +312,7 @@ public class Farmacia {
             menu = read.nextLine();
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuPesquisarPerfumaria() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -357,7 +371,7 @@ public class Farmacia {
             }
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuBuscaMedicamentos() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -406,10 +420,10 @@ public class Farmacia {
                 System.out.println("Pesquisar novo medicamento?\n[S]im ou [N]ao");
                 menu = read.nextLine();
             }
-            
+
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuGenericos() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -461,7 +475,7 @@ public class Farmacia {
                         System.out.println("Nao foi encontrado principio ativo " + priAtivo + " na busca por genericos");
                     }
                     break;
-                
+
             }
             if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
                 System.out.println("Pesquisar novo medicamento Generico?\n[S]im ou [N]ao");
@@ -469,7 +483,7 @@ public class Farmacia {
             }
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuExcluir() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -510,7 +524,7 @@ public class Farmacia {
             }
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuExcluiMedicamentos() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -542,7 +556,7 @@ public class Farmacia {
                     } else {
                         System.out.println("Não existem itens a serem excluidos");
                     }
-                    
+
                     break;
                 case 2:
                     if (algumMedicamento() > 0) {
@@ -555,8 +569,8 @@ public class Farmacia {
                     } else {
                         System.out.println("Não existem itens a serem excluidos");
                     }
-                
-                
+
+
             }
             if (saida == 0) {//so mostra se n for setado 0 pra sair do menu
                 System.out.println("Deseja excluir mais algum medicamento?\n[S]im ou [N]ao -- 0 para SAIR do MENU EXCLUIR MEDICAMENTOS");
@@ -564,7 +578,7 @@ public class Farmacia {
             }
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuExcluiPerf() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -612,7 +626,7 @@ public class Farmacia {
             }
         } while (menu.equalsIgnoreCase("s"));
     }
-    
+
     public static void menuVenda() {
         int opcao = -1, saida = 0;
         String menu = null;
@@ -699,7 +713,7 @@ public class Farmacia {
                 System.out.println("Deseja efetuar mais alguma venda?\n[S]im ou [N]ao -- 0 Pra SAIR do MENU VENDA");
                 menu = read.nextLine();
             }
-        } while (menu.equalsIgnoreCase("s"));
+        } while (!menu.equalsIgnoreCase("n"));
     }
 
     //chamar efetuar pagamento passando o objeto venda como parametro
@@ -749,7 +763,7 @@ public class Farmacia {
         }
         return excluidos;
     }
-    
+
     public static int excluiPerfNome(String nome) {
         int count = 0, countOcorre = 0, exclusoes = 0;
         Perfumaria perf = null, amostra = null;
@@ -788,7 +802,7 @@ public class Farmacia {
         }
         return excluidos;
     }
-    
+
     public static int excluiMedCod(int cod) {
         int count = 0, countOcorre = 0, exclusoes = 0;
         Medicamentos med = null, amostra = null;
@@ -824,7 +838,7 @@ public class Farmacia {
         }
         return excluidos;
     }
-    
+
     public static int excluiMedNome(String nome) {
         int count = 0, countOcorre = 0, exclusoes = 0;
         Medicamentos med = null, amostra = null;
@@ -873,7 +887,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int algumPerfumaria() {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -883,7 +897,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaItemCodigo(int codigo) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -904,7 +918,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaItemNome(String nome) {
         Scanner read = new Scanner(System.in);
         int count = 0;
@@ -926,7 +940,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaPriAtivo(String priAtivo) {
         Scanner read = new Scanner(System.in);
         int count = 0;
@@ -960,7 +974,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaGenNome(String nome) {
         Scanner read = new Scanner(System.in);
         int count = 0;
@@ -978,7 +992,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaGenPriAtivo(String priAtivo) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -995,7 +1009,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaPerfumariaCod(int cod) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -1009,7 +1023,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaPerfumariaNome(String nome) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -1023,7 +1037,7 @@ public class Farmacia {
         }
         return count;
     }
-    
+
     public static int buscaPerfumariaFrag(String fragrancia) {
         int count = 0;
         for (int i = 0; i < listaItens.size(); i++) {
@@ -1056,7 +1070,7 @@ public class Farmacia {
         }
         return null;
     }
-    
+
     public static Item cadastroNome(String nome) {
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i) instanceof Medicamentos) {
@@ -1102,7 +1116,7 @@ public class Farmacia {
                 }
             }
         }
-        
+
         if (item instanceof Perfumaria) {
             //Perfumaria perf = new Perfumaria(lote, preco, validade, nome, fragrancia, unidade)
             for (int i = 0; i < listaItens.size(); i++) {
@@ -1125,7 +1139,7 @@ public class Farmacia {
         }
         return 0;
     }
-    
+
     public static int buscaCadMedNor(String nome, String tarja, String data, String priAtivo, String posologia, boolean generico, String lote,
             float preco, String validade) {
 
@@ -1146,7 +1160,7 @@ public class Farmacia {
         }
         return 0;
     }
-    
+
     public static int buscaCadMedCont(String nome, String tarja, String data, String priAtivo, String posologia,
             boolean generico, String lote, float preco) {
         //MedicamentoNormal med = new MedicamentoNormal(tarja, data, principio, posologia, generico, codigo,lote, preco, validade, nome)
@@ -1166,7 +1180,7 @@ public class Farmacia {
         }
         return 0;
     }
-    
+
     public static int buscaCadPerf(String nome, String lote, float preco, String validade, String fragrancia, String unidade) {
         for (int i = 0; i < listaItens.size(); i++) {
             if (listaItens.get(i) instanceof Perfumaria) {
@@ -1180,11 +1194,11 @@ public class Farmacia {
         }
         return 0;
     }
-    
+
     public static ArrayList<Item> getListaItens() {
         return listaItens;
     }
-    
+
     public static void setListaItens(ArrayList<Item> listaItens) {
         Farmacia.listaItens = listaItens;
     }
@@ -1208,7 +1222,8 @@ public class Farmacia {
             System.out.println("| 3. Listar Itens cadastrados                       |");
             System.out.println("| 4. Pesquisar                                      |");
             System.out.println("| 5. Excluir                                        |");
-            System.out.println("| 6. Efetuar VENDA                                  |");
+            System.out.println("| 6. Iniciar CAIXA                                  |");
+            System.out.println("| 7. Efetuar VENDA                                  |");
             System.out.println(" ---------------------------------------------------");
             System.out.println("| 0. SAIR DO SISTEMA                                |");
             System.out.println(" ---------------------------------------------------");
@@ -1241,15 +1256,22 @@ public class Farmacia {
                     if (!listaItens.isEmpty()) {
                         menuExcluir();
                     } else {
-                        System.out.println("Nao existem itens para serem excluidos");
+                        System.out.println("Nao existem itens para serem excluidos\nTecle ENTER para retornar ao menu");
+                        read.nextLine();
                     }
                     break;
                 case 6:
+                    abrirCaixa();
+                    break;
+                case 7:
                     if (!listaItens.isEmpty()) {
                         menuVenda();
                     } else {
-                        System.out.println("Nao existem itens para serem vendidos");
+                        System.out.println("Nao existem itens para serem vendidos\nTecle ENTER para retornar ao menu");
+                        read.nextLine();
                     }
+                    break;
+
                 default:
                     System.out.println("Digite número válido ou 0 pra SAIR...");
             }

@@ -6,6 +6,7 @@ package farmacia;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 /**
  * Classe cria o objeto venda que é posteriormente inserido no banco de dados        
@@ -33,6 +34,17 @@ public class Venda {
     }
 
     public void addListaItensVenda(Item item) {
+        Scanner read = new Scanner(System.in);
+        int crm = 0;
+        if(item instanceof MedicamentoControlado){
+            do{
+               System.out.println("Medicamento controlado, favor digitar o CRM do medico prescrevente");
+               crm = read.nextInt();
+               read.nextLine();                      
+            }while(crm < 1);
+            MedicamentoControlado itemControl = (MedicamentoControlado) item;
+            itemControl.setCrm(crm);
+        }
         listaItensVenda.add(item);
         System.out.println("Item: codigo =  " + item.getCodigo() + "| Nome = " + item.getNome() + " adicionado a compra");
         calculaValorTotal();

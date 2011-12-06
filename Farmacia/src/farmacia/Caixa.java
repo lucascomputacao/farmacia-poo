@@ -17,7 +17,6 @@ public class Caixa {
     private static int id = 0;
     private String operador;
     private float saldo;
-    
 
     public Caixa(String operador, float saldo) {
         this.operador = operador;
@@ -25,38 +24,43 @@ public class Caixa {
         Caixa.id = id++;
     }
 
-    public float exibirItens() {
+    public float exibirItens(Venda venda) {
         float total = 0;
-        for (int i = 0; i < listVenda.size(); i++) {
-            ArrayList<Item> lista = listVenda.get(i).getListaItensVenda();
-            lista.get(i).imprimeInfo();
-            total = listVenda.get(i).getVlrTotal();
+        for (int i = 0; i < venda.getListaItensVenda().size(); i++) {
+            venda.getListaItensVenda().get(i).imprimeInfo();
+            total =  venda.getVlrTotal();
         }
-        System.out.println("\nTotal: " + total);
+        System.out.println("\nQuantidade de itens:" + venda.getListaItensVenda().size()+ "\nValor Total: " + total);
         return total;
     }
+    //retira do estoque os itens vendidos
 
-    public void baixaEstoque(Venda venda){
+    public void baixaEstoque(Venda venda) {
         ArrayList<Item> itensVendidos = venda.getListaItensVenda();
         for (int i = 0; i < Farmacia.getListaItens().size(); i++) {
             Item busca = itensVendidos.get(i);
-            if( Farmacia.getListaItens().get(i).equals(busca)){
-                Item remove = Farmacia.getListaItens().remove(i);
+            if (Farmacia.getListaItens().get(i).equals(busca)) {
+                if (Farmacia.getListaItens().size() == 1) {
+                    Farmacia.getListaItens().clear();
+                } else {
+                    Item remove = Farmacia.getListaItens().remove(i);
+                }
+
             }
         }
     }
-    
-    public float cobranca(float dinheiro, float aPagar){
-        if(dinheiro < aPagar){
+
+    public float cobranca(float dinheiro, float aPagar) {
+        if (dinheiro < aPagar) {
             System.out.println("Quantia em dinheiro insuficiente");
             return 0;
         }
-         float troco = dinheiro - aPagar;
-         System.out.println("Recebido: R$ "+dinheiro+" - Total: R$ "+aPagar);
-         System.out.println("Troco: R$ "+troco);
-    return troco;
+        float troco = dinheiro - aPagar;
+        System.out.println("Recebido: R$ " + dinheiro + " - Total: R$ " + aPagar);
+        System.out.println("Troco: R$ " + troco);
+        return troco;
     }
-    
+
     public void addListaVenda(Venda venda) {
         listVenda.add(venda);
     }
