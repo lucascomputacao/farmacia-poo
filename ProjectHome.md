@@ -1,0 +1,1 @@
+Projeto para implementação de um sistema de farmácias em Java com o paradigma da Orientação a Objetos.
